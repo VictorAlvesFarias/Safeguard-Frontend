@@ -1,0 +1,11 @@
+input {
+    outline: none;
+}
+input:focus-visible {
+    outline: none;
+}
+
+body, * {
+    margin: 0;
+    padding: 0;
+}

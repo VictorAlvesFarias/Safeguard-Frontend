@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* custom classes */
+.center {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.col {
+    display:flex;
+    flex-direction: column;
+}
+
+*::-webkit-scrollbar {
+    width: 10px; /* Largura da barra de scroll */
+}
+  
+*::-webkit-scrollbar-thumb {
+    background-color: #888; /* Cor da barra de scroll */
+    border-radius: 4px; /* Arredonde as bordas da barra de scroll */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #828282; /* Cor da barra de scroll ao passar o mouse por cima */
+}
+
+*::-webkit-scrollbar-track {
+    background-color: #f1f1f100; /* Cor do fundo da barra de scroll */
+    border-radius: 4px; /* Arredonde as bordas do fundo da barra de scroll */
+}
