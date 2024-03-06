@@ -33,10 +33,6 @@ function NavBarLateralDefault() {
                         </div>
                         <h1 className=' text-2xl ml-3 mb-10'>Safeguard</h1>
                         <div className='flex flex-col gap-3 text-sm'>
-                            <Link to={'/'} className='flex gap-3 items-center hover:bg-zinc-50 p-3 rounded'>
-                                <img className='w-7' src={homeIcon} alt="" />
-                                <p>Home</p>
-                            </Link>
                             <Link to={'/accounts'} className='flex gap-3 items-center hover:bg-zinc-50 p-3 rounded'>
                                 <img className='w-7' src={profileIcon} alt="" />
                                 <p>Contas</p>

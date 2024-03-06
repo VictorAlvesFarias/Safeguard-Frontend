@@ -26,7 +26,6 @@ function Emails() {
     password: z.string().nonempty('Campo obrigatório'),
     phone: z.string().nonempty('Campo obrigatório')
   })
-
   const {setValue, register, handleSubmit, formState: { errors } } = useForm<z.infer<typeof schema>>(
     {
       resolver: zodResolver(schema),
@@ -90,11 +89,18 @@ function Emails() {
             </div>
         </Form>
       </div>
-      <div className='h-full w-full bg-zinc-100 rounded'>
+      <div className='h-full w-full flex flex-col gap-3 bg-zinc-100 rounded p-3'>
           {emails.map((item)=>
-              <div className='bg-zinc-200 overflow-hidden rounded flex-col relative flex-1 h-48 flex items-center transition-all justify-center'>
-                <span onClick={()=>handleRemoveEmail(item.id)}>X</span>
-                {item.name}
+              <div className='bg-zinc-200 overflow-hidden rounded gap-3 p-3 relative  h-fit flex items-center transition-all'>
+                <button className=' top-0 right-0  m-3 absolute w-7 h-7 text-center text-white bg-red-400 rounded' onClick={()=>handleRemoveEmail(item.id)}>
+                  X
+                </button>
+                <div className='w-14 h-14 bg-zinc-500 rounded'>
+
+                </div>
+                <p>
+                  E-Mail: {item.username}@{item.provider}
+                </p>
               </div>  
           )}
       </div>

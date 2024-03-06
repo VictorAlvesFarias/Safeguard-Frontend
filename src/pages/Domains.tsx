@@ -37,7 +37,8 @@ function Domains() {
     })
     .catch(r=>{
       setLoading(false)
-  })}
+    }
+  )}
 
   async function handleRemoveDomain(id) {
     await domainService.Remove(id)
@@ -48,13 +49,14 @@ function Domains() {
   })}
 
   async function handleGetDomains() {
-    domainService.GetAll()
-    .then(r=>{
+    await domainService.GetAll()
+    .then((r:any)=>{
       setLoading(false)
       dispatch(domainActions.set(r))
     })
     .catch(r=>{
       setLoading(false)
+      console.log(r)
     })
   }
 
@@ -77,13 +79,17 @@ function Domains() {
             <img src={addIcon} className='w-10 h-10' alt="" />
           </div>
         </div>
-        <div className='w-full bg-zinc-100 rounded grid md:grid-cols-2 xl:grid-cols-3 gap-3 p-3 overflow-auto'>
-          {domains.map((item)=>
-              <div className='bg-zinc-200 overflow-hidden rounded flex-col relative flex-1 h-48 flex items-center transition-all justify-center'>
-                <span onClick={()=>handleRemoveDomain(item.id)}>X</span>
-                {item.name}
-              </div>  
-          )}
+        <div className='w-full bg-zinc-100 rounded '>
+          <div className='grid md:grid-cols-2 xl:grid-cols-3 h-fit gap-3 p-3 overflow-auto'>
+            {domains.map((item)=>
+                <div className='bg-zinc-200 overflow-hidden rounded flex-col h-48 flex relative items-center transition-all justify-center'>
+                  <button className=' top-0 right-0  m-3 absolute w-7 h-7 text-center text-white bg-red-400 rounded' onClick={()=>handleRemoveDomain(item.id)}>
+                    X
+                  </button>
+                  {item.name}
+                </div>  
+            )}
+          </div>
         </div>
     </div>
   )

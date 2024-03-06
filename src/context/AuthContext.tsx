@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
 
   async function signIn(data) {
-    const result = loginService.loginPost(data)
+    const result = loginService.Login(data)
       .then(response => {
         debugger
         console.log(response)

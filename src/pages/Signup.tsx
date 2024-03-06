@@ -1,13 +1,9 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import Input from '../components/Input'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import Loading from '../components/Loading'
 import { SignupService } from './../services/SignupService';
-import InputRoot from './../components/InputRoot';
-import Button from '../components/Button'
 import Form from '../containers/Form'
 import InputDefault from '../styled-components/InputDefault'
 import ButtonDefault from '../styled-components/ButtonDefault'
@@ -31,7 +27,7 @@ function Signup() {
 
   function handleSingup(data) {
     setLoginLoding(true)
-    signupService.signupPost(Object.assign(data,{username:data.email.split("@").join(".")}))
+    signupService.Signup(Object.assign(data,{username:data.email.split("@").join(".")}))
       .then(() => {
         setLoginLoding(false)
         setSignUpSuccefull(true)
