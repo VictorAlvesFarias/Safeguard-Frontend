@@ -6,9 +6,9 @@ import Label from '../components/Label'
 
 function InputDefault({register,errors,label,readonly}:any) {
   return (
-    <InputRoot className={"flex-1"} >
-        <Label className="text-black text-sm" >{label}</Label>
-        <Input className={"rounded w-full border border-zinc-300 h-8 text-black indent-1 p-1 "} readonly={readonly} register={register} />
+    <InputRoot className={"w-full"} >
+        <Label className="text-sm text-white font-semibold" >{label}</Label>
+        <Input className={"transition-all rounded w-full border mt-1.5 bg-transparent text-zinc-200 border-zinc-400  p-2"} readonly={readonly} register={register} />
         <ErrorSpan error={errors}/>
     </InputRoot>
   )

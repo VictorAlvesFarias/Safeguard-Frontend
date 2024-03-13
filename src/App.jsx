@@ -7,14 +7,14 @@ import {AuthProvider} from './context/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import { Provider } from 'react-redux';
 import store from './store';
-
+import React from 'react';
 function App() {
   return (
     <Provider store={store}>
       <Router>
         <AuthProvider>
             <ToastContainer/>
-              <div className="w-full h-full flex justify-center items-center">
+              <div className="w-full h-full flex justify-center items-center font-primary ">
                 <Routes>
                   <Route path="login" element={<Login/>} />
                   <Route path="signup" element={<Signup/>} />

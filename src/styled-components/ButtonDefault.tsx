@@ -6,7 +6,7 @@ function ButtonDefault({loading,children}) {
 
   return (
     <Button
-        className="bg-blue-400 w-full flex items-center justify-center rounded text-white p-1 hover:shadow-md transition-all"
+        className="bg-violet-900 text-zinc-900 font-bold w-fit p-2 px-12 flex items-center justify-center rounded-full hover:shadow-md transition-all"
         loading={loading}
         loadingComponent={
         <Loading visible={true} className={"w-7 h-7"}/>}

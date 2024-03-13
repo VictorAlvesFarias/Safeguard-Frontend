@@ -24,8 +24,8 @@ function NavBarLateralDefault() {
                 setMobileMenuOpen={setMobileMenuOpen}
                 mobileMenuOpen={mobileMenuOpen}
             >
-                <div className='md:p-3 gap-3 w-60 h-full'>
-                    <div className='flex flex-col shadow-lg rounded bg-zinc-100 h-full p-3 '>
+                <div className='md:p-2 gap-3 w-60 h-full'>
+                    <div className='flex flex-col shadow-lg rounded bg-primary h-full p-3 '>
                         <div className='flex w-full md:hidden justify-end '>
                             <button onClick={() => setMobileMenuOpen(false)} type="button" className="relative right-0">
                                 Voltar
@@ -33,21 +33,21 @@ function NavBarLateralDefault() {
                         </div>
                         <h1 className=' text-2xl ml-3 mb-10'>Safeguard</h1>
                         <div className='flex flex-col gap-3 text-sm'>
-                            <Link to={'/accounts'} className='flex gap-3 items-center hover:bg-zinc-50 p-3 rounded'>
+                            <Link to={'/accounts'} className='flex gap-3 items-center font-semibold hover:bg-fort  p-3 rounded'>
                                 <img className='w-7' src={profileIcon} alt="" />
                                 <p>Contas</p>
                             </Link>
-                            <Link to={'/domains'} className='flex gap-3 items-center hover:bg-zinc-50 p-3 rounded'>
+                            <Link to={'/domains'} className='flex gap-3 items-center font-semibold hover:bg-fort  p-3 rounded'>
                                 <img className='w-7' src={domainIcon} alt="" />
                                 <p>Dominions</p>
                             </Link>
-                            <Link to={'/emails'} className='flex gap-3 items-center hover:bg-zinc-50 p-3 rounded'>
+                            <Link to={'/emails'} className='flex gap-3 items-center font-semibold hover:bg-fort  p-3 rounded'>
                                 <img className='w-7' src={emailIcon} alt="" />
                                 <p>E-Mails</p>
                             </Link>
                         </div>
                         <div className='flex flex-1 items-end w-full text text-sm'>
-                            <Link to={'/login'} className='flex gap-3 w-full items-center hover:bg-zinc-50 p-3 rounded'>
+                            <Link to={'/login'} className='flex gap-3 w-full items-center hover:bg-fort  p-3 rounded'>
                                 <img className='w-7' src={exitIcon} alt="" />
                                 <p>Logout</p>
                             </Link>

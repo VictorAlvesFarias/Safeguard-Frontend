@@ -9,6 +9,8 @@ import Dropdown from '../components/Dropdown'
 import { useDispatch, useSelector } from 'react-redux';
 import { EmailService } from '../services/EmailService'
 import {emailActions} from '../slices/EmailSlice'
+import { Link } from 'react-router-dom'
+import lockIcon from '../assets/lock.svg'
 
 function Emails() {
 
@@ -16,9 +18,6 @@ function Emails() {
   const emailService = new EmailService()
   const emails = useSelector(({email}:any) => email.value)
   const dispatch = useDispatch()
-  const domains = useSelector(({domain}:any) => domain.value).map(i=>{
-    return  { value: i.id, label: i.signature }
-  })
   const schema = z.object({
     username: z.string().nonempty('Campo obrigatório'),
     name: z.string().nonempty('Campo obrigatório'),
@@ -69,40 +68,35 @@ function Emails() {
   
 
   return (
-    <div className='flex  gap-3 w-full h-full   '>
-      <div className='bg-zinc-100 p-3 w-full max-w-xs rounded'>
-        <Form submit={handleSubmit(handleAddEmail)} className={'flex gap-3'}>
-            <div className='w-full bg-zinc-100 rounded flex flex-col gap-3 p-3 overflow-auto'>
-              <InputDefault register={register('name')} errors={errors.name} label={'Name'}/>
-              <InputDefault register={register('username')} errors={errors.username} label={'User'}/>
-              <Dropdown 
-                control={"providerId"}
-                setValue={setValue}
-                options={domains}
-                label={"Dominios"} 
-                register={register("providerId")} 
-                errors={errors.providerId}                 
-              />
-              <InputDefault register={register('password')} errors={errors.password} label={'Senha'}/>
-              <InputDefault register={register('phone')} errors={errors.phone} label={'Telefone'}/> 
-              <ButtonDefault loading={loading} >Adicionar</ButtonDefault>
-            </div>
-        </Form>
+    <div className='bg-fort w-full h-full flex-col overflow-auto rounded'>
+      <div className='min-h-60 flex-wrap flex items-end p-6 pl- pb-6 gap-6 '>
+        <div className='w-28 h-28 bg-tertiary rounded center'>
+          <img className='w-16 min-h-16' src={lockIcon}></img>
+        </div>
+        <div className='gap-6 flex-col'>
+          <h1 className='font-bold font- text-white text-3xl font-sans '>Meus E-Mails</h1>
+          <p className='text-lg'>Emails: {emails.length}</p>
+        </div>
       </div>
-      <div className='h-full w-full flex flex-col gap-3 bg-zinc-100 rounded p-3'>
+      <div className='bg-fort h-full px-6 pt-12'>
+        <Link className='cursor-pointer text-center center w-fit  bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={'create'}>Criar Email</Link>
+        <div className='flex flex-col gap-3 mt-12'>
           {emails.map((item)=>
-              <div className='bg-zinc-200 overflow-hidden rounded gap-3 p-3 relative  h-fit flex items-center transition-all'>
-                <button className=' top-0 right-0  m-3 absolute w-7 h-7 text-center text-white bg-red-400 rounded' onClick={()=>handleRemoveEmail(item.id)}>
-                  X
-                </button>
-                <div className='w-14 h-14 bg-zinc-500 rounded'>
-
+              <div className='flex mb-3 gap-3 items-center'>
+                <div className='w-12 h-12 p-3 bg-tertiary rounded center'>
+                  <img className='' src={item.provider.image}></img>
                 </div>
-                <p>
-                  E-Mail: {item.username}@{item.provider}
-                </p>
+                  <div className='flex flex-wrap flex-col overflow-hidden flex-1 '>
+                    <p className='whitespace-nowrap'>
+                      {item.name}
+                    </p>
+                    <p className='whitespace-nowrap'>
+                      {item.username}@{item.provider.signature}
+                    </p>
+                </div>
               </div>  
           )}
+        </div>
       </div>
     </div>
   )

@@ -2,16 +2,16 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useState } from 'react'
 import { set, useForm } from 'react-hook-form'
 import { z } from 'zod'
-import lockIcon from '../assets/lock.svg'
+import addIcon from '../assets/add.svg'
 import Form from '../containers/Form';
 import InputDefault from '../styled-components/InputDefault'
 import ButtonDefault from '../styled-components/ButtonDefault'
 import { DomainService } from '../services/DomainService';
 import { useDispatch, useSelector } from 'react-redux';
 import { domainActions } from '../slices/DomainSlice';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-function Domains() {
+export default function ManagerDomain() {
 
   const domainService = new DomainService()
   const [loading, setLoading] = useState(false)
@@ -29,6 +29,7 @@ function Domains() {
       resolver: zodResolver(schema),
     }
   );
+  const navigate  = useNavigate()
 
   async function handleAddDomain(data) {
     setLoading(true)
@@ -36,19 +37,12 @@ function Domains() {
     .then(r=>{
       setLoading(false)
       handleGetDomains()
+      navigate(-1)
     })
     .catch(r=>{
       setLoading(false)
     }
   )}
-
-  async function handleRemoveDomain(id) {
-    await domainService.Remove(id)
-    .then(r=>{
-      handleGetDomains()
-    })
-    .catch(r=>{
-  })}
 
   async function handleGetDomains() {
     await domainService.GetAll()
@@ -58,12 +52,10 @@ function Domains() {
     })
     .catch(r=>{
       setLoading(false)
-      console.log(r)
     })
   }
 
   async function handleFile(image:any) {
-
     const file = image.target.files[0];
     const reader = new FileReader();  
   
@@ -72,7 +64,6 @@ function Domains() {
       setValue('image',event.target.result)
       setCurrentImage(event.target.result)
     };
-
   }
 
   useEffect(() => {
@@ -80,33 +71,27 @@ function Domains() {
   }, [])
 
   return (
-    <div className='bg-fort w-full h-full flex-col overflow-auto rounded'>
-      <div className=' flex-wrap flex items-end p-3 pl-6 py-6 gap-6 '>
-        <div className='w-28 h-28 bg-tertiary rounded center'>
-          <img className='w-16 min-h-16' src={lockIcon}></img>
+    <div className='bg-fort w-full h-full overflow-auto relative'>
+      <Link className='cursor-pointer absolute m-3 bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={-1}>Voltar</Link>
+      <div className='flex gap-3 w-full  my-28 h-full rounded items-center justify-center  flex-col p-3  center '>
+        <div className='w-48 h-48 bg-tertiary rounded center'>
+          {currentImage&&<img className='w-16 min-h-16' src={currentImage}></img>}
         </div>
-        <div className='gap-6 flex-col'>
-          <h1 className='font-bold font- text-white text-3xl font-sans '>Meus Provedores de E-mail</h1>
-          <p className='text-lg'>Dominons: {domains.length}</p>
-        </div>
-      </div>
-      <div className='bg-fort h-full px-6 pt-12'>
-        <Link className='cursor-pointer text-center center w-fit  bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={'create'}>Criar Dominio</Link>
-        <div className='grid sm:grid-cols-2 xl:grid-cols-3 h-fit gap-3 mt-12'>
-          {domains.map((item)=>
-              <div className='bg-tertiary overflow-hidden rounded flex-col h-48 flex relative items-center transition-all justify-center'>
-                <div className='w-48 h-48 flex flex-col gap-3 rounded center'>
-                  <img className='w-16 min-h-16' src={item.image}></img>
-                  <p className='font-semibold'>
-                    {item.name}
-                  </p>
-                </div>
-              </div>  
-          )}
+        <label htmlFor="providerImage" className='cursor-pointer mt-3 bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full'>
+          Selecionar
+          <input className="hidden" type="file" onChange={handleFile} id="providerImage" />
+        </label>
+        <div className=' w-full flex-1 rounded center '>
+          <Form submit={handleSubmit(handleAddDomain)} className='flex flex-col gap-3 center w-80'>
+              <InputDefault register={register('name')} errors={errors.name} label={'Name'}/>
+              <InputDefault register={register('signature')} errors={errors.signature} label={'Domain'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
+              <div className='mt-6'>
+                <ButtonDefault loading={loading} >Adicionar</ButtonDefault>
+              </div>
+          </Form>
         </div>
       </div>
     </div>
   )
 }
-
-export default Domains
