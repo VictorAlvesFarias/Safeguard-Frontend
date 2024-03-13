@@ -2,7 +2,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import lockIcon from '../assets/lock.svg'
 import Form from '../containers/Form';
 import InputDefault from '../styled-components/InputDefault'
 import ButtonDefault from '../styled-components/ButtonDefault'
@@ -11,8 +10,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import DropdownDefault from '../styled-components/DropdownDefault';
 import { EmailService } from '../services/EmailService';
 
-export default function ManagerEmail() {
-
+export default function ManagerEmail() 
+{
+  const back:any = -1
   const emailService = new EmailService()
   const [loading, setLoading] = useState(false)
   const [currentImage, setCurrentImage] = useState(null)
@@ -26,7 +26,6 @@ export default function ManagerEmail() {
     password: z.string().nonempty('Campo obrigatório'),
     phone: z.string().nonempty('Campo obrigatório')
   })
-
   const { watch, register, handleSubmit, formState: { errors }, setValue } = useForm<z.infer<typeof schema>>(
     {
       resolver: zodResolver(schema),
@@ -53,7 +52,7 @@ export default function ManagerEmail() {
 
   return (
     <div className='bg-fort w-full h-full overflow-auto relative'>
-      <Link className='cursor-pointer absolute m-3 bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={-1}>Voltar</Link>
+      <Link className='cursor-pointer absolute m-3 bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={back}>Voltar</Link>
       <div className='flex gap-3 w-full  my-28 h-full rounded items-center justify-center  flex-col p-3  center '>
         <div className='w-48 h-48 bg-tertiary rounded center'>
           {currentImage && <img className='w-16 min-h-16' src={currentImage}></img>}

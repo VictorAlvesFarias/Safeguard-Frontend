@@ -27,7 +27,7 @@ function Dropdown({ register, options, setValue, control, className})
 
     return (
         <  >
-            <div className='w-full relative z-20'>
+            <div className='w-full relative '>
                 <div onClick={()=>setDrop(!drop)} className={'cursor-pointer w-full '+className.input}>
                     {selected}
                 </div>

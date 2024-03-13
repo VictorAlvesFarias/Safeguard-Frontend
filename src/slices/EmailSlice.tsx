@@ -15,7 +15,6 @@ export const emailSlice = createSlice({
         state.value = newData
     },
     set: (state:any,action:any) => {
-        console.log(action.payload)
         state.value = action.payload
     } 
   }

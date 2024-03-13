@@ -1,71 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import Form from '../containers/Form'
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import InputDefault from '../styled-components/InputDefault';
-import ButtonDefault from '../styled-components/ButtonDefault';
-import { z } from 'zod';
-import Dropdown from '../components/Dropdown';
-import { AccountService } from '../services/AccountService';
-import { accountActions } from '../slices/AccountSlice';
-
+import React  from 'react'
+import { useSelector } from 'react-redux';
 import lockIcon from '../assets/lock.svg'
 import { Link } from 'react-router-dom';
 
-function Accounts() {
-  const [loading, setLoading] = useState(false)
-  const accountService = new AccountService()
-  const dispatch = useDispatch()
+function Accounts() 
+{
   const accounts:any = useSelector(({account}:any) => account.value)
-  const schema = z.object({
-    name: z.string().nonempty('Campo obrigatório'),
-    password: z.string().nonempty('Campo obrigatório'),
-    username: z.string().nonempty('Campo obrigatório'),
-    phone: z.string().nonempty('Campo obrigatório'),
-    emailId: z.string().nonempty('Campo obrigatório')
-  })
-  const {setValue, register, handleSubmit, formState: { errors } } = useForm<z.infer<typeof schema>>(
-    {
-      resolver: zodResolver(schema),
-    }
-  );
-  const emails = useSelector(({email}:any) => email.value).map(i=>{
-    console.log(i)
-    return  { value: i.id, label: i.username+"@"+i.provider }
-  })
-  
-
-  async function handleAddAccount(data) {
-    await accountService.Add(data)
-    .then(r=>{
-      setLoading(false)
-      handleGetAccounts()
-    })
-    .catch(r=>{
-      console.log(r)
-      setLoading(false)
-    })
-  }
-
-  
-  async function handleGetAccounts() {
-    await accountService.GetAll()
-    .then(r=>{
-      console.log(r)
-      setLoading(false)
-      dispatch(accountActions.set(r))
-    })
-    .catch(r=>{
-      console.log(r)
-      setLoading(false)
-    })
-  }
-
-  useEffect(() => {
-    handleGetAccounts()
-  }, [])
-  
 
   return (
     <div className='bg-fort w-full h-full flex-col overflow-auto rounded'>

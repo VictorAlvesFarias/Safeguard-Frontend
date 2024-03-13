@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export const accountSlice = createSlice({
-  name: 'account',
+export const platformSlice = createSlice({
+  name: 'platform',
   initialState: {
     value: []
   },
@@ -21,6 +21,6 @@ export const accountSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const accountActions = accountSlice.actions
+export const platformActions = platformSlice.actions
 
-export default accountSlice.reducer
+export default platformSlice.reducer

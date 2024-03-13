@@ -30,8 +30,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   async function signIn(data) {
     const result = loginService.Login(data)
       .then(response => {
-        debugger
-        console.log(response)
         setIsAuthenticated(true)
 
         Cookies.set('jwtApplicationToken', response.data.data.token, { expires: 0.1 })

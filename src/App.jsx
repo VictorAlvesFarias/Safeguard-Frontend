@@ -7,7 +7,6 @@ import {AuthProvider} from './context/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import { Provider } from 'react-redux';
 import store from './store';
-import React from 'react';
 function App() {
   return (
     <Provider store={store}>

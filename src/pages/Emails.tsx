@@ -1,71 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import Form from '../containers/Form'
-import InputDefault from '../styled-components/InputDefault'
-import ButtonDefault from '../styled-components/ButtonDefault'
-import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import Dropdown from '../components/Dropdown'
-import { useDispatch, useSelector } from 'react-redux';
-import { EmailService } from '../services/EmailService'
-import {emailActions} from '../slices/EmailSlice'
+import React from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import lockIcon from '../assets/lock.svg'
 
 function Emails() {
 
-  const [loading, setLoading] = useState(false)
-  const emailService = new EmailService()
   const emails = useSelector(({email}:any) => email.value)
-  const dispatch = useDispatch()
-  const schema = z.object({
-    username: z.string().nonempty('Campo obrigatório'),
-    name: z.string().nonempty('Campo obrigatório'),
-    providerId: z.string().nonempty('Campo obrigatório'),
-    password: z.string().nonempty('Campo obrigatório'),
-    phone: z.string().nonempty('Campo obrigatório')
-  })
-  const {setValue, register, handleSubmit, formState: { errors } } = useForm<z.infer<typeof schema>>(
-    {
-      resolver: zodResolver(schema),
-    }
-  );
-
-  async function handleAddEmail(data) {
-    console.log(data)
-    await emailService.Add(data)
-    .then(r=>{
-      setLoading(false)
-      handleGetEmails()
-    })
-    .catch(r=>{
-      setLoading(false)
-    })
-  }
-
-  async function handleRemoveEmail(id) {
-    await emailService.Remove(id)
-    .then(r=>{
-      handleGetEmails()
-    })
-    .catch(r=>{
-  })}
-
-  async function handleGetEmails() {
-    emailService.GetAll()
-    .then(r=>{
-      setLoading(false)
-      dispatch(emailActions.set(r))
-    })
-    .catch(r=>{
-      setLoading(false)
-    })
-  }
-
-  useEffect(() => {
-    handleGetEmails()
-  }, [])
-  
 
   return (
     <div className='bg-fort w-full h-full flex-col overflow-auto rounded'>

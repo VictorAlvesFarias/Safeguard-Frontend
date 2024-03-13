@@ -45,6 +45,10 @@ function NavBarLateralDefault() {
                                 <img className='w-7' src={emailIcon} alt="" />
                                 <p>E-Mails</p>
                             </Link>
+                            <Link to={'/platforms'} className='flex gap-3 items-center font-semibold hover:bg-fort  p-3 rounded'>
+                                <img className='w-7' src={domainIcon} alt="" />
+                                <p>Plataformas</p>
+                            </Link>
                         </div>
                         <div className='flex flex-1 items-end w-full text text-sm'>
                             <Link to={'/login'} className='flex gap-3 w-full items-center hover:bg-fort  p-3 rounded'>
