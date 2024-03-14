@@ -1,30 +1,42 @@
-import React  from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import lockIcon from '../assets/lock.svg'
 import { Link } from 'react-router-dom';
+import SearchDefault from '../styled-components/SearchDefault';
+import Color from 'color-thief-react';
 
-function Accounts() 
-{
-  const accounts:any = useSelector(({account}:any) => account.value)
+function Accounts() {
+  const accounts: any = useSelector(({ account }: any) => account.value)
+
+  useEffect(() => {
+    console.log(accounts)
+  }, [accounts])
 
   return (
     <div className='bg-fort w-full h-full flex-col overflow-auto rounded'>
-    <div className=' flex-wrap flex items-end p-3 pl-6 py-6 gap-6 '>
-      <div className='w-28 h-28 bg-tertiary rounded center'>
-        <img className='w-16 min-h-16' src={lockIcon}></img>
+      <div className='flex w-full px-6 pt-6 gap-6 flex-wrap'>
+        <div className='flex-1 min-w-fit'>
+          <SearchDefault
+            placeholder={"Pesquisar conta"}
+          />
+        </div>
+        <Link className=' w-fit whitespace-nowrap cursor-pointer text-black font-semibold text-center center  bg-white p-1.5 px-3 rounded-full top-0 left-0 text-sm' to={'create'}>Cadastrar Conta</Link>
       </div>
-      <div className='gap-6 flex-col'>
-        <h1 className='font-bold font- text-white text-3xl font-sans '>Minhas Contas</h1>
-        <p className='text-lg'>Dominons: {}</p>
+      <div className='grid sm:grid-cols-2 xl:grid-cols-3 h-fit gap-3 p-6'>
+        {accounts.map(x =>
+          <Color src={x.platform.image} format="hex">
+            {({ data, loading, error }) => (
+              <div className={"transition-all  " + (data ? 'flex mb-3 gap-3 h-48 rounded items-center overflow-hidden p-3 opacity-100' : "opacity-0")} style={{ background: data }}>
+                <div className='flex flex-wrap flex-col flex-1 '>
+                  <p className='font-bold text-2xl'>{x.platform.name.toUpperCase()}</p>
+                  <p className='font-bold text-sm'>{x.name.toUpperCase()}</p>
+                  <p className='font-semibold text-sm'>{x.email.username}{x.email.provider.signature}</p>
+                </div>
+              </div>
+            )}
+          </Color>
+        )}
       </div>
     </div>
-    <div className='bg-fort h-full px-6 pt-12'>
-      <Link className='cursor-pointer text-center center w-fit  bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={'create'}>Criar Dominio</Link>
-      <div className='grid sm:grid-cols-2 xl:grid-cols-3 h-fit gap-3 mt-12'>
-
-      </div>
-    </div>
-  </div>
   )
 }
 

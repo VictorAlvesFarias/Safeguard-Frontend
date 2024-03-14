@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 function NavBarLateral({ children,setMobileMenuOpen,mobileMenuOpen }) {
     return (
-        <div className='h-full'>
+        <div className='md:h-full'>
             <div className='md:flex hidden h-full'>
                 {children}
             </div>

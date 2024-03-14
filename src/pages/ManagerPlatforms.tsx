@@ -70,9 +70,9 @@ export default function ManagerPlatforms() {
   }, [])
 
   return (
-    <div className='bg-fort w-full h-full overflow-auto relative'>
+    <div className='bg-fort w-full h-full relative overflow-auto'>
       <Link className='cursor-pointer absolute m-3 bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={back}>Voltar</Link>
-      <div className='flex gap-3 w-full  my-28 h-full rounded items-center justify-center  flex-col p-3  center '>
+      <div className='flex gap-3 w-full  my-28  rounded items-center justify-center  flex-col p-3  center '>
         <div className='w-48 h-48 bg-tertiary rounded center'>
           {currentImage&&<img className='w-16 min-h-16' src={currentImage}></img>}
         </div>
@@ -83,6 +83,19 @@ export default function ManagerPlatforms() {
         <div className=' w-full flex-1 rounded center '>
           <Form submit={handleSubmit(handleAddDomain)} className='flex flex-col gap-3 center w-80'>
               <InputDefault register={register('name')} errors={errors.name} label={'Name'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
+              <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
               <InputDefault register={register('description')} errors={errors.description} label={'Description'}/>
               <div className='mt-6'>
                 <ButtonDefault loading={loading} >Adicionar</ButtonDefault>

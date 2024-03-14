@@ -5,17 +5,17 @@ import { z } from 'zod'
 import Form from '../containers/Form';
 import InputDefault from '../styled-components/InputDefault'
 import ButtonDefault from '../styled-components/ButtonDefault'
-import { DomainService } from '../services/DomainService';
 import { useDispatch, useSelector } from 'react-redux';
-import { domainActions } from '../slices/DomainSlice';
+import { accountActions } from '../slices/AccountSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import DropdownDefault from '../styled-components/DropdownDefault'
+import {AccountService} from '../services/AccountService'
 
 export default function ManagerDomain() 
 {
   const back:any = -1
   const navigate  = useNavigate()
-  const domainService = new DomainService()
+  const domaidnService = new AccountService()
   const [loading, setLoading] = useState(false)
   const [currentImage, setCurrentImage] = useState(null)
   const emails = useSelector(({email}:any) => email.value).map(i => {
@@ -29,7 +29,6 @@ export default function ManagerDomain()
     name: z.string().nonempty('Campo obrigatório'),
     password: z.string().nonempty('Campo obrigatório'),
     username: z.string().nonempty('Campo obrigatório'),
-    image: z.string().nonempty('Campo obrigatório'),
     phone: z.string().nonempty('Campo obrigatório'),
     platformId: z.string().nonempty('Campo obrigatório'),
     emailId: z.string().nonempty('Campo obrigatório'),
@@ -42,7 +41,7 @@ export default function ManagerDomain()
 
   async function handleAddDomain(data) {
     setLoading(true)
-    await domainService.Add(data)
+    await domaidnService.Add(data)
     .then(r=>{
       setLoading(false)
       handleGetDomains()
@@ -54,10 +53,10 @@ export default function ManagerDomain()
   )}
 
   async function handleGetDomains() {
-    await domainService.GetAll()
+    await domaidnService.GetAll()
     .then((r:any)=>{
       setLoading(false)
-      dispatch(domainActions.set(r))
+      dispatch(accountActions.set(r))
     })
     .catch(r=>{
       setLoading(false)
@@ -70,8 +69,8 @@ export default function ManagerDomain()
 
   return (
     <div className='bg-fort w-full h-full overflow-auto relative'>
-      <Link className='cursor-pointer absolute m-3 bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={back}>Voltar</Link>
-      <div className='flex gap-3 w-full  my-28 h-full rounded items-center justify-center flex-col p-3  center '>
+      <Link className='cursor-pointer absolute m-6 bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={back}>Voltar</Link>
+      <div className='flex gap-3 w-full  my-28 rounded items-center justify-center flex-col p-3  center '>
           <div className='w-48 h-48 min-h-48 bg-tertiary rounded center'>
             {currentImage && <img className='w-16 min-h-16' src={currentImage}></img>}
           </div>

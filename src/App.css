@@ -16,6 +16,14 @@ body, * {
     background: linear-gradient(0deg, rgba(18,18,18,1) 38%, rgba(33,33,33,1) 83%);
 }
 
+.bg-primary-solid {
+    background-color: rgba(33,33,33,1);
+}
+
+.bg-secundary-solid {
+    background-color: rgba(18,18,18,1);
+}
+
 .bg-secundary {
     background-color: theme(backgroundColor.black);
 }

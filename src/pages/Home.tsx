@@ -19,6 +19,7 @@ import Platforms from '../pages/Platforms'
 import ManagerPlatforms from './ManagerPlatforms';
 import { PlatformService } from '../services/PlatformService';
 import { platformActions } from '../slices/PlatformSlice';
+import Registrations from './Registrations';
 
 
 function Home() {
@@ -79,6 +80,7 @@ function Home() {
                 <Route path="/emails" element={<Emails/>} />
                 <Route path="/domains" element={<Domains/>} />
                 <Route path="/platforms" element={<Platforms/>} />
+                <Route path="/registrations" element={<Registrations/>} />
               </Routes>  
           </div>
         </div>  

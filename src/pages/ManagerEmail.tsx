@@ -53,7 +53,7 @@ export default function ManagerEmail()
   return (
     <div className='bg-fort w-full h-full overflow-auto relative'>
       <Link className='cursor-pointer absolute m-3 bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={back}>Voltar</Link>
-      <div className='flex gap-3 w-full  my-28 h-full rounded items-center justify-center  flex-col p-3  center '>
+      <div className='flex gap-3 w-full  my-28 rounded items-center justify-center  flex-col p-3  center '>
         <div className='w-48 h-48 bg-tertiary rounded center'>
           {currentImage && <img className='w-16 min-h-16' src={currentImage}></img>}
         </div>
