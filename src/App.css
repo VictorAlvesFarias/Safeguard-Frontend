@@ -24,8 +24,13 @@ body, * {
     background-color: rgba(18,18,18,1);
 }
 
+
 .bg-secundary {
     background-color: theme(backgroundColor.black);
+}
+
+.bg-tertiary-solid {
+    background-color:  rgba(5,5,5,1)
 }
 
 .bg-tertiary {

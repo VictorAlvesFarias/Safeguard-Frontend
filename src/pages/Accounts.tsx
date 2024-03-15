@@ -7,10 +7,6 @@ import Color from 'color-thief-react';
 function Accounts() {
   const accounts: any = useSelector(({ account }: any) => account.value)
 
-  useEffect(() => {
-    console.log(accounts)
-  }, [accounts])
-
   return (
     <div className='bg-fort w-full h-full flex-col overflow-auto rounded'>
       <div className='flex w-full px-6 pt-6 gap-6 flex-wrap'>
@@ -25,13 +21,15 @@ function Accounts() {
         {accounts.map(x =>
           <Color src={x.platform.image} format="hex">
             {({ data, loading, error }) => (
-              <div className={"transition-all  " + (data ? 'flex mb-3 gap-3 h-48 rounded items-center overflow-hidden p-3 opacity-100' : "opacity-0")} style={{ background: data }}>
-                <div className='flex flex-wrap flex-col flex-1 '>
-                  <p className='font-bold text-2xl'>{x.platform.name.toUpperCase()}</p>
-                  <p className='font-bold text-sm'>{x.name.toUpperCase()}</p>
-                  <p className='font-semibold text-sm'>{x.email.username}{x.email.provider.signature}</p>
+              <Link to={'manager/'+x.id}>
+                <div className={"transition-all  " + (data ? 'flex mb-3 gap-3 h-48 rounded items-center overflow-hidden p-3 opacity-100' : "opacity-0")} style={{ background: data }}>
+                    <div className='flex flex-wrap flex-col flex-1 '>
+                      <p className='font-bold text-2xl'>{x.platform.name.toUpperCase()}</p>
+                      <p className='font-bold text-sm'>{x.name.toUpperCase()}</p>
+                      <p className='font-semibold text-sm'>{x.email.username}{x.email.provider.signature}</p>
+                    </div>
                 </div>
-              </div>
+              </Link>
             )}
           </Color>
         )}

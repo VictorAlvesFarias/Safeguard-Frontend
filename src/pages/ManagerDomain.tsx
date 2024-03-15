@@ -1,8 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useState } from 'react'
-import { set, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import addIcon from '../assets/add.svg'
 import Form from '../containers/Form';
 import InputDefault from '../styled-components/InputDefault'
 import ButtonDefault from '../styled-components/ButtonDefault'
@@ -11,12 +10,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { domainActions } from '../slices/DomainSlice';
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function ManagerDomain() {
-
+export default function ManagerDomain() 
+{
+  const back:any = -1
   const domainService = new DomainService()
   const [loading, setLoading] = useState(false)
   const [currentImage, setCurrentImage] = useState(null)
-  const domains = useSelector(({domain}:any) => domain.value)
   const dispatch = useDispatch()
   const schema = z.object({
     name: z.string().nonempty('Campo obrigatório'),
@@ -66,13 +65,10 @@ export default function ManagerDomain() {
     };
   }
 
-  useEffect(() => {
-    handleGetDomains()
-  }, [])
 
   return (
     <div className='bg-fort w-full h-full overflow-auto relative'>
-      <Link className='cursor-pointer absolute m-3 bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={-1}>Voltar</Link>
+      <Link className='cursor-pointer absolute m-3 bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={back}>Voltar</Link>
       <div className='flex gap-3 w-full  my-28 rounded items-center justify-center  flex-col p-3  center '>
         <div className='w-48 h-48 bg-tertiary rounded center'>
           {currentImage&&<img className='w-16 min-h-16' src={currentImage}></img>}

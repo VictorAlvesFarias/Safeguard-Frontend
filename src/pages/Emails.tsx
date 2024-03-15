@@ -1,7 +1,7 @@
+import { Mail } from 'lucide-react';
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
-import lockIcon from '../assets/lock.svg'
 
 function Emails() {
 
@@ -11,7 +11,7 @@ function Emails() {
     <div className='bg-fort w-full h-full flex-col overflow-auto rounded'>
       <div className='min-h-60 flex-wrap flex items-end p-6 pl- pb-6 gap-6 '>
         <div className='w-28 h-28 bg-tertiary rounded center'>
-          <img className='w-16 min-h-16' src={lockIcon}></img>
+          <Mail className='w-12 h-12' />
         </div>
         <div className='gap-6 flex-col'>
           <h1 className='font-bold font- text-white text-3xl font-sans '>Meus E-Mails</h1>
@@ -19,7 +19,9 @@ function Emails() {
         </div>
       </div>
       <div className='bg-fort h-full px-6 pt-12'>
-        <Link className='cursor-pointer text-center center w-fit  bg-white bg-opacity-5 border border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={'create'}>Criar Email</Link>
+        <Link className='bg-violet-600 text-zinc-900 font-bold w-fit p-2 px-12 flex items-center justify-center rounded-full hover:shadow-md' to={'create'}>
+          Adicionar
+        </Link>
         <div className='flex flex-col gap-3 mt-12'>
           {emails.map((item)=>
             <div className='flex mb-3 gap-3 items-center'>

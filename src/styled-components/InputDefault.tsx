@@ -4,11 +4,16 @@ import Input from '../components/Input'
 import ErrorSpan from '../components/ErrorSpan'
 import Label from '../components/Label'
 
-function InputDefault({register,errors,label,readonly}:any) {
+function InputDefault({register,errors,label,readonly, disable}:any) {
   return (
     <InputRoot className={"w-full"} >
         <Label className="text-sm text-white font-semibold" >{label}</Label>
-        <Input className={"transition-all rounded w-full border mt-1.5 bg-transparent text-zinc-200 border-zinc-400  p-2"} readonly={readonly} register={register} />
+        <Input 
+          className={"transition-all w-full indent-3 mt-1.5 text-zinc-200 p-2 "+(!disable?"border border-zinc-400 bg-transparent rounded":"rounded-full bg-primary-solid")} 
+          readonly={readonly} 
+          register={register} 
+          disable={disable}
+        />
         <ErrorSpan error={errors}/>
     </InputRoot>
   )

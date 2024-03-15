@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Input({ register, className, readonly, placeholder }: any) {
+function Input({ register, className, readonly, placeholder,disable }: any) {
   return (
     <input 
       {...register} 
@@ -8,7 +8,9 @@ function Input({ register, className, readonly, placeholder }: any) {
       readOnly={readonly}
       autoComplete='off'
       placeholder={placeholder} 
-      className={className} />
+      className={className}
+      disabled = {disable}
+    />
   )
 }
 
