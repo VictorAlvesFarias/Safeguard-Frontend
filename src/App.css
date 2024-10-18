@@ -1,0 +1,70 @@
+input {
+    outline: white;
+}
+
+input:focus-visible {
+    outline: white;
+}
+
+ body, * {
+    margin: 0;
+    padding: 0;
+    z-index: none; 
+}
+
+.bg-primary {
+    background: rgb(18,18,18);
+    background: linear-gradient(0deg, rgba(18,18,18,1) 38%, rgba(33,33,33,1) 83%);
+}
+
+.bg-primary-solid {
+    background-color: rgba(33,33,33,1);
+}
+
+.bg-secundary-solid {
+    background-color: rgba(18,18,18,1);
+}
+
+
+.bg-secundary {
+    background-color: theme(backgroundColor.black);
+}
+
+.bg-tertiary-solid {
+    background-color:  rgba(5,5,5,1)
+}
+
+.bg-tertiary {
+    background-color: #292929;
+}
+
+.bg-fort {
+    background: rgb(18,18,18);
+    background: linear-gradient(0deg, rgba(18,18,18,1) 41%, rgba(5,5,5,1) 100%);
+}
+
+.bg-q {
+    background: rgb(46,46,46);
+    background: linear-gradient(0deg, rgba(46,46,46,1) 41%, rgba(86,86,86,1) 100%);
+}
+
+.font-primary {
+    color: theme(backgroundColor.zinc.300);
+}
+
+.stroke-primary {
+    stroke: white;
+}
+
+.fill-primary {
+    fill: white;
+}
+
+.teste1 {
+    background: rgb(18,18,18);
+    background: linear-gradient(0deg, rgba(18,18,18,1) 41%, rgba(5,5,5,1) 100%);
+}
+.teste2 {
+    background: rgb(46,46,46);
+    background: linear-gradient(0deg, rgba(46,46,46,1) 41%, rgba(86,86,86,1) 100%);
+}
