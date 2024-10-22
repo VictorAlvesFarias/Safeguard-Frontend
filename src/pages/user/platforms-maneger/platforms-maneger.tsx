@@ -14,10 +14,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { platformService } from '../../../services/platforms-service';
 import If from '../../../base-components/if';
+import { base64ToImage } from '../../../utils/extensions/image';
+import { toFormData } from 'axios';
 
 function PlatformsManeger() {
     const [finished, setQuery, setFinished] = useQuery(false)
-    const [currentImage, setCurrentImage] = useState(null)
+    const [currentImage, setCurrentImage] = useState<null | string>(null)
     const [isEditable, setIsEditable] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const back: any = -1
@@ -29,7 +31,7 @@ function PlatformsManeger() {
     }
     const schema = z.object({
         name: z.string().nonempty('Campo obrigatório'),
-        image: z.string().nonempty('Campo obrigatório'),
+        image: z.instanceof(File).refine((file) => file != null, "Campo obrigatório"),
     })
     const { register, handleSubmit, formState: { errors }, setValue, reset, control } = useForm<z.infer<typeof schema>>(
         {
@@ -43,18 +45,18 @@ function PlatformsManeger() {
 
         reader.readAsDataURL(file);
         reader.onload = function (event: any) {
-            setValue('image', event.target.result)
+            setValue('image', file)
             setCurrentImage(event.target.result)
         };
     }
     function handleAddPlatform(data) {
-        return platformService.add(data)
+        return platformService.add(toFormData(data))
             .then(r => {
                 navigate(back)
             })
     }
     function handleUpdatePlatform(data) {
-        return platformService.update(data, urlParams.id)
+        return platformService.update(toFormData(data), urlParams.id)
             .then(() => {
                 setIsEditing(false)
             })
@@ -72,7 +74,7 @@ function PlatformsManeger() {
             .then(({ res }: any) => {
                 reset(res)
                 setIsEditable(true)
-                setCurrentImage(res.image)
+                setCurrentImage(base64ToImage(res.image.base64,res.image.mimeType))
             })
     }
 

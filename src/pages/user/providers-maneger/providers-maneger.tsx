@@ -14,15 +14,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { providerService } from '../../../services/provider-service';
 import If from '../../../base-components/if';
-import DropdownContext from '../../../base-components/dropdown-context';
-import DropdownRoot from '../../../components/dropdown-root';
-import DropdownMenu from '../../../components/dropdown-menu';
-import DropdownOption from '../../../components/dropdown-option';
+import { objectToFormData } from '../../../utils/extensions/formData';
+import { base64ToImage } from '../../../utils/extensions/image';
+import { toFormData } from 'axios';
 
 
 function ProvidersManeger() {
     const [finished, setQuery, setFinished] = useQuery(false)
-    const [currentImage, setCurrentImage] = useState(null)
+    const [currentImage, setCurrentImage] = useState<null | string>(null)
     const [isEditable, setIsEditable] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const back: any = -1
@@ -36,7 +35,7 @@ function ProvidersManeger() {
         name: z.string().nonempty('Campo obrigatório'),
         description: z.string().nonempty('Campo obrigatório'),
         signature: z.string().nonempty('Campo obrigatório'),
-        image: z.string().nonempty('Campo obrigatório'),
+        image: z.instanceof(File).refine((file) => file != null, "Campo obrigatório"),
     })
     const { register, handleSubmit, formState: { errors }, setValue, reset, control } = useForm<z.infer<typeof schema>>(
         {
@@ -50,18 +49,18 @@ function ProvidersManeger() {
 
         reader.readAsDataURL(file);
         reader.onload = function (event: any) {
-            setValue('image', event.target.result)
+            setValue("image", file)
             setCurrentImage(event.target.result)
         };
     }
     function handleAddProvider(data) {
-        return providerService.add(data)
+        return providerService.add(toFormData(data))
             .then(r => {
                 navigate(back)
             })
     }
     function handleUpdateProvider(data) {
-        return providerService.update(data, urlParams.id)
+        return providerService.update(toFormData(data), urlParams.id)
             .then(() => {
                 setIsEditing(false)
             })
@@ -79,7 +78,7 @@ function ProvidersManeger() {
             .then(({ res }: any) => {
                 reset(res)
                 setIsEditable(true)
-                setCurrentImage(res.image)
+                setCurrentImage(base64ToImage(res.image.base64, res.image.mimeType))
             })
     }
 

@@ -14,6 +14,7 @@ import TableBody from '../../../components/table-body'
 import TableRow from '../../../components/table-row'
 import TableCell from '../../../components/table-cell'
 import { EmailEntity } from '../../../interfaces/entities/email-entity'
+import { base64ToImage } from '../../../utils/extensions/image';
 
 function Emails() {
     const [finished, setQuerys, setFinished] = useQuery()
@@ -74,12 +75,12 @@ function Emails() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {emails.filter(e => `${e.username}@${e.provider.signature}`.toLowerCase().includes(filters.searchTerm)).map((e, index) =>
-                                    <TableRow>
+                                {emails.filter(e => `${e.username}@${e.provider.signature}`.toLowerCase().includes(filters.searchTerm.toLowerCase())).map((e, index) =>
+                                    <TableRow key={index}>
                                         <TableCell variation='body'>{index + 1}</TableCell>
                                         <TableCell variation='body'>
                                             <div className='w-12 h-12 bg-zinc-700 rounded flex items-center justify-center'>
-                                                <img className='w-10' src={e.provider.image} alt="" />
+                                                <img className='w-10' src={base64ToImage(e.provider?.image?.base64, e.provider?.image?.mimeType)} alt="" />
                                             </div>
                                         </TableCell>
                                         <TableCell onClick={() => navigate(`${USER_ROUTES.MANAGER_EMAILS}?id=${e.id}`)} variation='body'>

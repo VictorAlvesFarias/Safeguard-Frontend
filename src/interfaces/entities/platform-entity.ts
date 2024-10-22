@@ -1,6 +1,8 @@
+import { FileEntity } from "./file-entity"
+
 interface PlatformEntity {
     name: string
-    image: string
+    image: FileEntity
     id: number
 }
 

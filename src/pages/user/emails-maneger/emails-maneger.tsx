@@ -20,10 +20,11 @@ import DropdownRoot from '../../../components/dropdown-root';
 import DropdownMenu from '../../../components/dropdown-menu';
 import DropdownOption from '../../../components/dropdown-option'
 import { ProviderEntity } from '../../../interfaces/entities/provider-entity';
+import { base64ToImage } from '../../../utils/extensions/image';
 
 function EmailsManeger() {
     const [finished, setQuery, setFinished] = useQuery(false)
-    const [currentImage, setCurrentImage] = useState<string>("")
+    const [currentImage, setCurrentImage] = useState<string| null>()
     const [isEditable, setIsEditable] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const [providers, setProviders] = useState<ProviderEntity[]>([])
@@ -72,7 +73,7 @@ function EmailsManeger() {
             .then(({ res }) => {
                 reset({ ...res, providerId: res.provider.id })
                 setIsEditable(true)
-                setCurrentImage(res.provider.image)
+                setCurrentImage(base64ToImage(res.provider.image.base64, res.provider.image.mimeType))
             })
     }
     function handleGetProviders() {
@@ -97,7 +98,8 @@ function EmailsManeger() {
     }, [])
 
     useEffect(() => {
-        setCurrentImage(providers.filter(e => e.id == watch("providerId"))[0]?.image)
+        const image = providers.filter(e => e.id == watch("providerId"))[0]?.image
+        setCurrentImage(image ? base64ToImage(image?.base64, image?.mimeType) : null)
     }, [watch("providerId")])
 
     return (

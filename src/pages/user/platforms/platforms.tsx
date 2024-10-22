@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { USER_ROUTES } from '../../../config/routes-config';
 import { platformService } from '../../../services/platforms-service';
 import CardLoading from '../../helpers/loading/card-loading';
+import { base64ToImage } from '../../../utils/extensions/image';
 
 function Platforms() {
     const [finished, setQuerys, setFinished] = useQuery(true)
@@ -58,7 +59,7 @@ function Platforms() {
                         </div>
                         <CardLoading loading={!finished}>
                             <div className='grid sm:grid-cols-2 xl:grid-cols-3 h-full gap-3'>
-                                {platform.filter(e => e.name.toLowerCase().includes(filters.searchTerm)).map((item, index) =>
+                                {platform.filter(e => e.name.toLowerCase().includes(filters.searchTerm.toLowerCase())).map((item, index) =>
                                     <div key={index}
                                         className=' bg-tertiary overflow-hidden rounded flex-col h-48 flex relative items-center transition-all justify-center group'
                                     >
@@ -71,7 +72,7 @@ function Platforms() {
                                                 search: "id=" + item.id
                                             }} className='w-full h-full flex flex-col gap-3 rounded center '
                                         >
-                                            <img className='w-16 min-h-16' src={item?.image} alt={item?.name} />
+                                            <img className='w-16 min-h-16' src={base64ToImage(item?.image?.base64,item?.image?.mimeType)} alt={item?.name} />
                                             <p className='font-semibold'>
                                                 {item?.name}
                                             </p>

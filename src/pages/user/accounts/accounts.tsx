@@ -14,6 +14,7 @@ import TableHead from '../../../components/table-head'
 import TableBody from '../../../components/table-body'
 import TableRow from '../../../components/table-row'
 import TableCell from '../../../components/table-cell'
+import { base64ToImage } from '../../../utils/extensions/image';
 
 function Accounts() {
     const [finished, setQuerys, setFinished] = useQuery(true)
@@ -74,16 +75,16 @@ function Accounts() {
                                 </TableHead>
                                 <TableBody>
                                     {account.filter(e =>
-                                        e.name.toLowerCase().includes(filters.searchTerm) ||
-                                        e.platform.name.toLowerCase().includes(filters.searchTerm) ||
-                                        `${e.email.username}@${e.email.provider.signature}`.toLowerCase().includes(filters.searchTerm)
+                                        e.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+                                        e.platform.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+                                        `${e.email.username}@${e.email.provider.signature}`.toLowerCase().includes(filters.searchTerm.toLowerCase())
                                     ).map((item, index) =>
                                         <TableRow>
                                             <TableCell variation='body'>{index + 1}</TableCell>
                                             <TableCell variation='body'>
                                                 <div className='w-12 h-12 bg-zinc-700 rounded flex items-center justify-center'>
                                                     {item.platform.image ?
-                                                        <img className='w-12' src={item.platform.image} alt="" /> :
+                                                        <img className='w-12' src={base64ToImage(item.platform?.image.base64,item.platform.image.mimeType)} alt="" /> :
                                                         <></>
                                                     }
                                                 </div>

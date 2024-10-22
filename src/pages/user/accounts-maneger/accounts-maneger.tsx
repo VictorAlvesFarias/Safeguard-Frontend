@@ -22,6 +22,7 @@ import DropdownMenu from '../../../components/dropdown-menu';
 import DropdownOption from '../../../components/dropdown-option'
 import { EmailEntity } from '../../../interfaces/entities/email-entity';
 import { emailService } from '../../../services/emails-service';
+import { base64ToImage } from '../../../utils/extensions/image';
 
 function AccountsManeger() {
     const [finished, setQuery, setFinished] = useQuery(false)
@@ -77,7 +78,7 @@ function AccountsManeger() {
             .then(({ res }: any) => {
                 reset(res)
                 setIsEditable(true)
-                setCurrentImage(res.image)
+                setCurrentImage(res.image.base64)
             })
     }
     function handleGetPlatforms() {
@@ -113,14 +114,14 @@ function AccountsManeger() {
     useEffect(() => {
 
         const platformImage = platforms.filter(e => e.id == watch("platformId"))[0]?.image
-        const emailImage = emails.filter(e => e.id == watch("emailId"))[0]?.provider.image
+        const emailImage = emails.filter(e => e.id == watch("emailId"))[0]?.provider?.image
 
         if (platformImage) {
-            setCurrentImage(platformImage)
-            setCurrentImageSecundary(emailImage)
+            setCurrentImage(base64ToImage(platformImage?.base64,platformImage?.mimeType))
+            setCurrentImageSecundary(base64ToImage(emailImage?.base64,emailImage?.mimeType))
         } 
         else {
-            setCurrentImage(emailImage)
+            setCurrentImage(base64ToImage(emailImage?.base64,emailImage?.mimeType))
         }
     }, [watch("emailId"), watch("platformId")])
 
