@@ -32,10 +32,10 @@ function ProvidersManeger() {
         id: searchParams.get("id")
     }
     const schema = z.object({
-        name: z.string().nonempty('Campo obrigatório'),
-        description: z.string().nonempty('Campo obrigatório'),
-        signature: z.string().nonempty('Campo obrigatório'),
-        image: z.instanceof(File).refine((file) => file != null, "Campo obrigatório"),
+        name: z.string().nonempty('Required'),
+        description: z.string().nonempty('Required'),
+        signature: z.string().nonempty('Required'),
+        image: z.instanceof(File, { message: "Required" }).refine((file) => file != null, "Required"),
     })
     const { register, handleSubmit, formState: { errors }, setValue, reset, control } = useForm<z.infer<typeof schema>>(
         {
@@ -49,7 +49,7 @@ function ProvidersManeger() {
 
         reader.readAsDataURL(file);
         reader.onload = function (event: any) {
-            setValue("image", file)
+            setValue('image', file, { shouldValidate: true })
             setCurrentImage(event.target.result)
         };
     }
@@ -97,19 +97,20 @@ function ProvidersManeger() {
             <div className='bg-fort w-full h-full overflow-auto relative transition-all bg-gradient-to-t from-main-black-800 to-transparent duration-500   bg-main-violet-900'>
                 <div className='flex w-full gap-3 items-center p-6'>
                     <Link className='cursor-pointer  bg-white bg-opacity-5 border-2 border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={back}>
-                        Voltar
+                        Return
                     </Link>
-                    <h1 className='font-bold font- text-white text-3xl font-sans '>Adicionar provedor</h1>
+                    <h1 className='font-bold font- text-white text-3xl font-sans '>New Provedor</h1>
                 </div>
                 <Loading loading={!finished} />
                 <If conditional={finished}>
                     <div className='flex gap-3 w-full  my-28 rounded items-center justify-center  flex-col p-3  center '>
                         <div className='w-48 h-48 bg-tertiary rounded center'>
-                            {currentImage && <img className='w-16 min-h-16' src={currentImage}></img>}
+                            {currentImage && <img className='w-16' src={currentImage}></img>}
                         </div>
+                        <Span variation='error'>{errors.image?.message}</Span>
                         <If conditional={isEditing || isEditable == false}>
                             <label htmlFor="providerImage" className='cursor-pointer mt-3 bg-white bg-opacity-5 border-2 border-zinc-400 p-1.5 px-3 rounded-full'>
-                                Selecionar
+                                Select
                                 <input className="hidden" type="file" onChange={handleFile} id="providerImage" />
                             </label>
                         </If>
@@ -117,27 +118,27 @@ function ProvidersManeger() {
                             <Form variation='card' onSubmit={handleSubmit((e) => handleAddOrUpdate(e))} >
                                 <InputRoot>
                                     <Label >Name</Label>
-                                    <InputText placeholder='Nome' {...register('name', { disabled: !isEditing })} />
-                                    <Span variation='error'></Span>
+                                    <InputText placeholder='Name' {...register('name', { disabled: !isEditing })} />
+                                    <Span variation='error'>{errors.name?.message}</Span>
                                 </InputRoot>
                                 <InputRoot>
-                                    <Label >Provider</Label>
-                                    <InputText placeholder='Username' {...register('signature', { disabled: !isEditing })} />
-                                    <Span variation='error'></Span>
+                                    <Label >Signature</Label>
+                                    <InputText placeholder='Signature' {...register('signature', { disabled: !isEditing })} />
+                                    <Span variation='error'>{errors.signature?.message}</Span>
                                 </InputRoot>
                                 <InputRoot>
-                                    <Label >Descrição</Label>
-                                    <InputText placeholder='Telefone' {...register('description', { disabled: !isEditing })} />
-                                    <Span variation='error'></Span>
+                                    <Label >Description</Label>
+                                    <InputText placeholder='Description' {...register('description', { disabled: !isEditing })} />
+                                    <Span variation='error'>{errors.description?.message}</Span>
                                 </InputRoot>
                                 <If conditional={!isEditable}>
-                                    <Button variation='default-full'>Adicionar</Button>
+                                    <Button variation='default-full'>Create</Button>
                                 </If>
                                 <If conditional={isEditable}>
                                     {
                                         isEditing ?
-                                            <Button variation='default-full'>Salvar</Button> :
-                                            <Span onClick={() => setIsEditing(true)} variation='button-default-full'>Editar</Span>
+                                            <Button variation='default-full'>Save</Button> :
+                                            <Span onClick={() => setIsEditing(true)} variation='button-default-full'>Edit</Span>
                                     }
                                 </If>
                             </Form>

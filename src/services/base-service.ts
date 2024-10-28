@@ -17,7 +17,7 @@ export class BaseService {
 
     constructor(config?: AxiosRequestConfig, token?: any) {
         this.axios = axios
-        this.token = token ?? `Bearer ${Cookies.get("jwtApplicationToken")}`
+        this.token = token ?? `Bearer ${Cookies.get("token")}`
         this.config = config ?? {
             headers: {
                 Authorization: this.token

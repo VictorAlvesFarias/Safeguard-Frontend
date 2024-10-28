@@ -50,14 +50,16 @@ function Emails() {
                         <div className='w-28 h-28 bg-tertiary rounded center'>
                             <MailsIcon className='w-12 h-12' />
                         </div>
-                        <div className='gap-6 flex-col'>
-                            <h1 className='font-bold font- text-white text-3xl font-sans '>E-mails</h1>
-                            <p className='text-md font-semibold'>Quantity: {emails.length}</p>
+                        <div className='flex gap-1 flex-col'>
+                            <h1 className='font-bold text-white sm:text-3xl font-sans text-2xl'>E-mails</h1>
+                            <div className='flex gap-3'>
+                                <Link to={USER_ROUTES.MANAGER_EMAILS} onMouseLeave={() => setAddButtomHovered(false)} onMouseEnter={() => setAddButtomHovered(true)}>
+                                    <CirclePlusIcon className='text-main-violet-500 w-6 h-6 hover:text-main-violet-100 transition-all duration-300' />
+                                </Link>
+                                <p className='text-md font-semibold'>Quantity: {emails.length}</p>
+                            </div>
                         </div>
                     </div>
-                    <Link to={USER_ROUTES.MANAGER_EMAILS} onMouseLeave={() => setAddButtomHovered(false)} onMouseEnter={() => setAddButtomHovered(true)}>
-                        <CirclePlusIcon className='text-main-violet-500 w-12 h-12 hover:text-main-violet-100 transition-all duration-300' />
-                    </Link>
                 </div>
                 <div className='overflow-auto bg-gradient-to-t from-main-black-800 to-main-black-900 min-h-full w-full p-6 gap-6 flex flex-col    '>
                     <div className='w-full max-w-80'>

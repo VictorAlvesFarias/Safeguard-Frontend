@@ -27,8 +27,8 @@ function Login() {
   const [finished, setQuerys] = useQuery(true)
   
   const loginSchema = z.object({
-    email: z.string().nonempty("Campo Obrigatório").email("E-Mail Inválido"),
-    password: z.string().nonempty("Campo Obrigatório"),
+    email: z.string().nonempty("Required").email("E-Mail Inválido"),
+    password: z.string().nonempty("Required"),
   })
   const { register, control, formState, handleSubmit } = useForm<LoginSchema>(
     {

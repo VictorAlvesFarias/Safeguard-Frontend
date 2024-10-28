@@ -48,23 +48,23 @@ function UserRouters() {
                   <CircleUser className="w-7 h-7"></CircleUser>
                   <span className="overflow-auto text-ellipsis">
                     <p>
-                      {cookies.name ?? "Nome não encontrado"}
+                      {cookies.name ?? "User not found"}
                     </p>
                   </span>
                 </div>
               </div>
             </SidebarItem>
             <SidebarItem href={USER_ROUTES.ACCOTUNS}>
-              <SidebarHref><UsersIcon />Contas</SidebarHref>
+              <SidebarHref><UsersIcon />Accounts</SidebarHref>
             </SidebarItem>
             <SidebarItem href={USER_ROUTES.DOMAINS}>
-              <SidebarHref><AtSignIcon /> Dominios</SidebarHref>
+              <SidebarHref><AtSignIcon /> Providers</SidebarHref>
             </SidebarItem>
             <SidebarItem href={USER_ROUTES.EMAILS}>
               <SidebarHref><MailsIcon />E-mails</SidebarHref>
             </SidebarItem>
             <SidebarItem href={USER_ROUTES.PLATFORMS}>
-              <SidebarHref><NetworkIcon />Platformas</SidebarHref>
+              <SidebarHref><NetworkIcon />Platforms</SidebarHref>
             </SidebarItem>
             <ModalContext>
               <div className="flex-1 flex items-end w-full">
@@ -75,14 +75,14 @@ function UserRouters() {
                 </ModalOpen>
               </div>
               <ModalRoot>
-                <div className='shadow-lg p-6 bg-zinc-200 flex flex-col gap-3 rounded border border-zinc-400'>
-                  <p>Tem certeza que deseja sair?</p>
+                <div className='shadow-lg p-6 bg-main-black-800 flex flex-col gap-3 rounded text-white'>
+                  <p>Are you sure you want to leave?</p>
                   <div className='flex justify-between w-full mt-6 gap-3'>
                     <ModalClose callback={logout} className='flex justify-between flex-1'>
-                      <Button>Sair</Button>
+                      <Button>Exit</Button>
                     </ModalClose>
                     <ModalClose className='flex justify-between flex-1'>
-                      <Button variation='red'>Cancelar</Button>
+                      <Button variation='red'>Cancel</Button>
                     </ModalClose>
                   </div>
                 </div>
