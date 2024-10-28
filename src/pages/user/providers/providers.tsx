@@ -44,14 +44,16 @@ function Providers() {
                             <div className='w-28 h-28 bg-tertiary rounded center'>
                                 <Building className='w-12 h-12' />
                             </div>
-                            <div className='gap-6 flex-col'>
-                                <h1 className='font-bold font- text-white text-3xl font-sans '>Provedores</h1>
-                                <p className='text-md font-semibold'>Criadas: {provider.length}</p>
+                            <div className='flex gap-1 flex-col'>
+                                <h1 className='font-bold text-white sm:text-3xl font-sans text-2xl'>Providers</h1>
+                                <div className='flex gap-3'>
+                                    <Link to={USER_ROUTES.MANAGER_DOMAINS} onMouseLeave={() => setAddButtomHovered(false)} onMouseEnter={() => setAddButtomHovered(true)}>
+                                        <CirclePlusIcon className='text-main-violet-500 w-6 h-6 hover:text-main-violet-100 transition-all duration-300' />
+                                    </Link>
+                                    <p className='text-md font-semibold'>Quantity: {provider.length}</p>
+                                </div>
                             </div>
                         </div>
-                        <Link to={USER_ROUTES.MANAGER_DOMAINS} onMouseLeave={() => setAddButtomHovered(false)} onMouseEnter={() => setAddButtomHovered(true)}>
-                            <CirclePlusIcon className='text-main-violet-500 w-12 h-12 hover:text-main-violet-100 transition-all duration-300' />
-                        </Link>
                     </div>
                     <div className='bg-gradient-to-t from-main-black-800 to-main-black-900 min-h-full w-full p-6 gap-6 flex flex-col    '>
                         <div className='w-full max-w-80'>
@@ -72,8 +74,8 @@ function Providers() {
                                                 search: "id=" + item.id
                                             }} className='w-full h-full flex flex-col gap-3 rounded center '
                                         >
-                                            <img className='w-16 min-h-16' src={base64ToImage(item?.image.base64, item?.image.mimeType)} alt={item?.name} />
-                                            <p className='font-semibold'>
+                                            <img className='w-16' src={base64ToImage(item?.image.base64, item?.image.mimeType)} alt={item?.name} />
+                                            <p className='font-seibold'>
                                                 {item?.name}
                                             </p>
                                         </Link>

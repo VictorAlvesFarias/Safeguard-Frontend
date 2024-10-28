@@ -49,14 +49,17 @@ function Accounts() {
                             <div className='w-28 h-28 bg-tertiary rounded center'>
                                 <UsersIcon className='w-12 h-12' />
                             </div>
-                            <div className='gap-6 flex-col'>
-                                <h1 className='font-bold font- text-white text-3xl font-sans '>Contas</h1>
-                                <p className='text-md font-semibold'>Criados: {account.length}</p>
+                            <div className='flex gap-1 flex-col'>
+                                <h1 className='font-bold text-white sm:text-3xl font-sans text-2xl'>Accounts</h1>
+                                <div className='flex gap-3'>
+                                    <Link to={USER_ROUTES.MANAGER_ACCOUNTS} onMouseLeave={() => setAddButtomHovered(false)} onMouseEnter={() => setAddButtomHovered(true)}>
+                                        <CirclePlusIcon className='text-main-violet-500 w-6 h-6 hover:text-main-violet-100 transition-all duration-300' />
+                                    </Link>
+                                    <p className='text-md font-semibold'>Quantity: {account.length}</p>
+                                </div>
                             </div>
                         </div>
-                        <Link to={USER_ROUTES.MANAGER_ACCOUNTS} onMouseLeave={() => setAddButtomHovered(false)} onMouseEnter={() => setAddButtomHovered(true)}>
-                            <CirclePlusIcon className='text-main-violet-500 w-12 h-12 hover:text-main-violet-100 transition-all duration-300' />
-                        </Link>
+
                     </div>
                     <div className='overflow-auto bg-gradient-to-t from-main-black-800 to-main-black-900 min-h-full w-full p-6 gap-6 flex flex-col    '>
                         <div className='w-full max-w-80'>
@@ -83,9 +86,8 @@ function Accounts() {
                                             <TableCell variation='body'>{index + 1}</TableCell>
                                             <TableCell variation='body'>
                                                 <div className='w-12 h-12 bg-zinc-700 rounded flex items-center justify-center'>
-                                                    {item.platform.image ?
-                                                        <img className='w-12' src={base64ToImage(item.platform?.image.base64,item.platform.image.mimeType)} alt="" /> :
-                                                        <></>
+                                                    {item.platform.image &&
+                                                        <img className='w-12' src={base64ToImage(item.platform?.image.base64, item.platform.image.mimeType)} alt="" />
                                                     }
                                                 </div>
                                             </TableCell>

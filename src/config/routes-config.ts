@@ -10,6 +10,7 @@ const USER_ROUTES = {
   EMAILS: "emails",
   DOMAINS: "domains",
   PLATFORMS: "platforms",
+  LOGIN: "/login",
   PROFILE: "",
 };
 
