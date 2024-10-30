@@ -30,7 +30,7 @@ interface SignupSchema {
 
 function Signup() {
   const [finished, setQuerys] = useQuery(true)
-  const [success, setSuccess] = useState(true)
+  const [success, setSuccess] = useState(false)
   const navigate = useNavigate();
 
   const signupSchema = z.object({
@@ -54,7 +54,7 @@ function Signup() {
 
   function handleSignUp(data: any) {
     return signupService.signupPost(data).then(e => {
-      navigate(USER_ROUTES.LOGIN)
+      setSuccess(true)
     })
   }
 
