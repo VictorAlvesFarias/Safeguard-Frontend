@@ -4,7 +4,7 @@ import { useSelector } from "../utils/hooks/selector-hooks"
 
 const modalRootVariations = {
     default: (props: IModalRootContainerProps) =>
-        <ModalRootContainer {...props} className='bg-opacity-35 bg-black center ' />
+        <ModalRootContainer {...props} className='bg-opacity-35 bg-black center flex p-10' />
 }
 
 const ModalRoot = useSelector<keyof typeof modalRootVariations,IModalRootContainerProps>(modalRootVariations)

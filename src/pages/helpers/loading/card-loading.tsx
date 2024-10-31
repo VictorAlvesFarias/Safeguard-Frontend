@@ -5,7 +5,7 @@ import If from "../../../base-components/if"
 
 interface LoadingPageProps {
   loading: boolean
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 function CardLoading(props: LoadingPageProps) {
@@ -17,7 +17,7 @@ function CardLoading(props: LoadingPageProps) {
         </div>
       </If>
       <div aria-hidden={props.loading} className='aria-hidden:opacity-0'>
-        {props.children}
+        {props?.children}
       </div>
     </div>
   )

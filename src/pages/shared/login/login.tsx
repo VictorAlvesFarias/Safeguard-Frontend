@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Link } from 'react-router-dom'
-import { LockOpen, LucideCheck } from 'lucide-react'
+import { LoaderCircle, LockOpen, LucideCheck } from 'lucide-react'
 import { AuthContext } from '../../../auth/auth-context'
 import Form from '../../../components/form';
 import Button from '../../../components/button';
@@ -25,7 +25,7 @@ function Login() {
   const [rememberMe, setRemeberMe] = useState(localStorage.getItem("remember-me") == "true")
   const context = useContext(AuthContext)
   const [finished, setQuerys] = useQuery(true)
-  
+
   const loginSchema = z.object({
     email: z.string().nonempty("Required").email("E-Mail Inválido"),
     password: z.string().nonempty("Required"),
@@ -37,7 +37,7 @@ function Login() {
   );
 
   function handleSingIn(data: any) {
-    return context.signIn(data)
+    return setQuerys(() => context.signIn(data))
   }
   function handleSetRememberMe() {
     setRemeberMe(!rememberMe)
@@ -65,8 +65,8 @@ function Login() {
                 <InputText placeholder='Senha' {...register('password')} />
                 <Span variation='error'>{formState.errors.password?.message}</Span>
               </InputRoot>
-              <Button variation='default-full' loading={!finished}>
-                Entrar
+              <Button loadingComponent={<LoaderCircle className={"rotating-div"} />} variation='default-full' loading={!finished}>
+                Criar Conta
               </Button>
               <InputRoot variation='checkbox'>
                 <Checkbox data={""} value={rememberMe} onChange={handleSetRememberMe} >
