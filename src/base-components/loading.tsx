@@ -7,9 +7,7 @@ interface ILoadingContainerProps {
 
 function LoadingContainer(props: ILoadingContainerProps) {
   return (
-    <div className={props.className}>
-      <LoaderCircle />
-    </div>
+    <LoaderCircle className={props.className} />
   )
 }
 
