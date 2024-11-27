@@ -27,7 +27,7 @@ function Login() {
   const [finished, setQuerys] = useQuery(true)
 
   const loginSchema = z.object({
-    email: z.string().nonempty("Required").email("E-Mail Inválido"),
+    email: z.string().nonempty("Required"),
     password: z.string().nonempty("Required"),
   })
   const { register, control, formState, handleSubmit } = useForm<LoginSchema>(
@@ -66,7 +66,7 @@ function Login() {
                 <Span variation='error'>{formState.errors.password?.message}</Span>
               </InputRoot>
               <Button loadingComponent={<LoaderCircle className={"rotating-div"} />} variation='default-full' loading={!finished}>
-                Criar Conta
+                Entrar
               </Button>
               <InputRoot variation='checkbox'>
                 <Checkbox data={""} value={rememberMe} onChange={handleSetRememberMe} >

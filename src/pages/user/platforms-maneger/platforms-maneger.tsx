@@ -16,6 +16,11 @@ import { platformService } from '../../../services/platforms-service';
 import If from '../../../base-components/if';
 import { base64ToImage } from '../../../utils/extensions/image';
 import { toFormData } from 'axios';
+import ModalContext from '../../../base-components/modal-context';
+import ModalRoot from '../../../base-components/modal-root';
+import FilesManagerDialog from '../../../dialogs/files-manager-dialog/files-manager-dialog';
+import ModalOpen from '../../../base-components/modal-open';
+import { FileEntity } from '../../../interfaces/entities/file-entity';
 
 function PlatformsManeger() {
     const [finished, setQuery, setFinished] = useQuery(false)
@@ -31,7 +36,7 @@ function PlatformsManeger() {
     }
     const schema = z.object({
         name: z.string().nonempty('Required'),
-        image: z.instanceof(File,{message:"Required"}).refine((file) => file != null, "Required"),
+        imageId: z.string().nonempty('Required'),
     })
     const { register, handleSubmit, formState: { errors }, setValue, reset, control } = useForm<z.infer<typeof schema>>(
         {
@@ -39,15 +44,9 @@ function PlatformsManeger() {
         }
     )
 
-    function handleFile(image: any) {
-        const file = image.target.files[0];
-        const reader = new FileReader();
-
-        reader.readAsDataURL(file);
-        reader.onload = function (event: any) {
-            setValue('image', file, { shouldValidate: true })
-            setCurrentImage(event.target.result)
-        };
+    function handleSelectImage(file: FileEntity) {
+        setValue('imageId', String(file.id), { shouldValidate: true })
+        setCurrentImage(base64ToImage(file.base64, file.mimeType))
     }
     function handleAddPlatform(data) {
         return platformService.add(toFormData(data))
@@ -103,12 +102,16 @@ function PlatformsManeger() {
                         <div className='w-48 h-48 bg-tertiary rounded center'>
                             {currentImage && <img className='w-16' src={currentImage}></img>}
                         </div>
-                        <Span variation='error'>{errors.image?.message}</Span>
+                        <Span variation='error'>{errors.imageId?.message}</Span>
                         <If conditional={isEditing || isEditable == false}>
-                            <label htmlFor="platformImage" className='cursor-pointer mt-3 bg-white bg-opacity-5 border-2 border-zinc-400 p-1.5 px-3 rounded-full'>
-                                Select
-                                <input className="hidden" type="file" onChange={handleFile} id="platformImage" />
-                            </label>
+                            <ModalContext>
+                                <ModalRoot>
+                                    <FilesManagerDialog callback={handleSelectImage} />
+                                </ModalRoot>
+                                <ModalOpen className='cursor-pointer mt-3 bg-white bg-opacity-5 border-2 border-zinc-400 p-1.5 px-3 rounded-full'>
+                                    Select
+                                </ModalOpen>
+                            </ModalContext>
                         </If>
                         <div className=' w-full flex-1 rounded center max-w-96 flex-col'>
                             <Form variation='card' onSubmit={handleSubmit((e) => handleAddOrUpdate(e))} >

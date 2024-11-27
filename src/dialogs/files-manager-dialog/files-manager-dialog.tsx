@@ -9,6 +9,7 @@ import { Plus, TrashIcon } from 'lucide-react'
 import CardLoading from '../../pages/helpers/loading/card-loading'
 import { base64ToImage } from '../../utils/extensions/image'
 import Loading from '../../components/loading'
+import If from '../../base-components/if'
 
 function FilesManagerDialog({ callback }: { callback: (e: FileEntity) => any }) {
   const [finished, setQuery] = useQuery();
@@ -55,7 +56,7 @@ function FilesManagerDialog({ callback }: { callback: (e: FileEntity) => any }) 
   }, [])
 
   return (
-    <div className='shadow-lg p-6 relative bg-main-black-800 flex-1 h-full flex flex-col gap-3 rounded text-white'>
+    <div className='shadow-lg p-12 relative bg-main-black-800 flex-1 h-full flex flex-col gap-3 rounded text-white'>
       {!finished && <div className='flex h-full w-full center'>
         <Loading />
       </div>}
@@ -85,11 +86,11 @@ function FilesManagerDialog({ callback }: { callback: (e: FileEntity) => any }) 
         </div>
       </div>
       <div className='flex gap-3 max-w-80'>
-        <div className='w-1/2'>
-          <Button onClick={handleSelectItem} variation='default-full'>Selecionar</Button>
-        </div>
-        <ModalClose className='w-1/2'>
-          <Button variation='red'>Cancelar</Button>
+          <div className='w-1/2'>
+            <Button disabled={selected == null} onClick={handleSelectItem} variation='default-full'>Selecionar</Button>
+          </div>
+        <ModalClose className='w-9 h-9 absolute top-0 right-0 m-3'>
+          <Button variation='red'>X</Button>
         </ModalClose>
       </div>
     </div>

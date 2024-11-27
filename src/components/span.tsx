@@ -12,7 +12,7 @@ const spanVariations = {
     <span
       {...props}
       children={props.children}
-      className='bg-main-violet-500 text-black text-nowrap px-9 w-full rounded-full shadow hover:bg-opacity-70 transition-all h-9 p-1  font-semibold flex justify-center items-center' />
+      className='bg-main-violet-500 text-white text-nowrap px-9 w-full rounded-full shadow hover:bg-opacity-70 transition-all h-9 p-1  font-semibold flex justify-center items-center' />
 }
 
 const Span = useSelector<keyof typeof spanVariations, React.HTMLAttributes<HTMLSpanElement>>(spanVariations)
