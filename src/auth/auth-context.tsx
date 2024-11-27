@@ -13,14 +13,29 @@ const AuthContext = createContext<AuthContextType>({
   permissions: null
 });
 
-const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+function customNavigate() {
+  const navigate = useNavigate()
+
+  function handleNavigate(url) {
+    if(AUTH.AUTENTICATE_PAGE_RELOAD){
+      window.location.href = url
+    }
+    else {
+      navigate(url)
+    }
+  }
+
+  return handleNavigate
+}
+
+function AuthProvider({ children }: { children: React.ReactNode }) {
   const token = Cookies.get('accessToken');
   const permissions = Cookies.get('claims');
   const loginService = new LoginService()
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
   const [timeoutStarted, setTimeoutStarted] = useState(false);
+  const navigate = customNavigate();
   const [permissionsContext, setPermissionsContext] = useState(JSON.parse(permissions ?? "{}"));
-  const navigate = useNavigate()
 
   function signIn(data) {
     const result = loginService.loginPost(data)
@@ -39,7 +54,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           }
         })
 
-        window.location.href = "/"
+        navigate("/")
       })
 
     return result
@@ -50,7 +65,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       Cookies.remove(e)
     })
 
-    window.location.href = "/login"
+    navigate("/login")
   }
 
   const authContext: AuthContextType = {

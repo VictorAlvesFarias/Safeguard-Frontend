@@ -11,7 +11,7 @@ const USER_ROUTES = {
   DOMAINS: "domains",
   PLATFORMS: "platforms",
   LOGIN: "/login",
-  PROFILE: "",
+  PROFILE: "/profile",
 };
 
 export {

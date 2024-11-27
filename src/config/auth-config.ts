@@ -4,7 +4,8 @@ const AUTH = {
     "/signup",
   ],
   DISABLE_AUTH: true,
-  STARTER_LENGHT_HISTORY: window.history.length
+  STARTER_LENGHT_HISTORY: window.history.length,
+  AUTENTICATE_PAGE_RELOAD: false,
 }
 
 export {

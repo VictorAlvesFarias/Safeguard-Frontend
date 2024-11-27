@@ -23,7 +23,6 @@ import FilesManagerDialog from '../../../dialogs/files-manager-dialog/files-mana
 import ModalOpen from '../../../base-components/modal-open';
 import { FileEntity } from '../../../interfaces/entities/file-entity';
 
-
 function ProvidersManeger() {
     const [finished, setQuery, setFinished] = useQuery(false)
     const [currentImage, setCurrentImage] = useState<null | string>(null)
