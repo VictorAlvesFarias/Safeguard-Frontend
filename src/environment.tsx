@@ -1,1 +1,1 @@
-export const env = "https://localhost:5001"
+export const env = "https://localhost:7240"

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { env } from "../environment";
 import { BaseService } from "./base-service";
+import { AccountEntity } from "../interfaces/entities/account-entity";
 
 class AccountService extends BaseService {
     public async add(data) {
@@ -22,12 +23,12 @@ class AccountService extends BaseService {
     }
 
     public async getAll() {
-        const response = await this.get({ api: env, href: "/get-accounts" })
+        const response = await this.get<AccountEntity[]>({ api: env, href: "/get-accounts" })
         return response
     }
 
     public async getById(params) {
-        const response = await this.get({ api: env, href: "/get-account-by-id", params: params })
+        const response = await this.get<AccountEntity>({ api: env, href: "/get-account-by-id", params: params })
         return response
     }
 }
