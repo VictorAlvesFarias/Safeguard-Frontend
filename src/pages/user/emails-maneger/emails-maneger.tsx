@@ -21,10 +21,13 @@ import DropdownMenu from '../../../components/dropdown-menu';
 import DropdownOption from '../../../components/dropdown-option'
 import { ProviderEntity } from '../../../interfaces/entities/provider-entity';
 import { base64ToImage } from '../../../utils/extensions/image';
+import { MASK } from '../../../config/mask-confg';
+import moment from 'moment';
+import { dateFormat } from '../../../utils/extensions/date';
 
 function EmailsManeger() {
     const [finished, setQuery, setFinished] = useQuery(false)
-    const [currentImage, setCurrentImage] = useState<string| null>()
+    const [currentImage, setCurrentImage] = useState<string | null>()
     const [isEditable, setIsEditable] = useState(false)
     const [isEditing, setIsEditing] = useState(false)
     const [providers, setProviders] = useState<ProviderEntity[]>([])
@@ -37,6 +40,10 @@ function EmailsManeger() {
     }
     const schema = z.object({
         name: z.string().nonempty('Required'),
+        lastName: z.string(),
+        birthDate: z.string().refine(value => moment(value, "DD/MM/YYYY").isValid(), {
+            message: "Invalid date"
+        }),
         username: z.string().nonempty('Required'),
         phone: z.string().nonempty('Required'),
         password: z.string().nonempty('Required'),
@@ -49,13 +56,19 @@ function EmailsManeger() {
     )
 
     function handleAddEmail(data) {
-        return emailService.add(data)
+        return emailService.add({
+            ...data,
+            birthDate: new Date(dateFormat(data.birthDate))
+        })
             .then(r => {
                 navigate(back)
             })
     }
     function handleUpdateEmail(data) {
-        return emailService.update(data, urlParams.id)
+        return emailService.update({
+            ...data,
+            birthDate: new Date(dateFormat(data.birthDate))
+        }, urlParams.id)
             .then(() => {
                 setIsEditing(false)
             })
@@ -71,7 +84,11 @@ function EmailsManeger() {
     function handleGetEmail() {
         return emailService.getById({ id: urlParams.id })
             .then(({ res }) => {
-                reset({ ...res, providerId: res.provider.id })
+                reset({
+                    ...res,
+                    providerId: res.provider.id,
+                    birthDate: moment(res.birthDate).format("DD/MM/YYYY")
+                })
                 setIsEditable(true)
                 setCurrentImage(base64ToImage(res.provider.image.base64, res.provider.image.mimeType))
             })
@@ -120,7 +137,7 @@ function EmailsManeger() {
                         <div className=' w-full flex-1 rounded center max-w-96 flex-col'>
                             <Form variation='card' onSubmit={handleSubmit((e) => handleAddOrUpdate(e))} >
                                 <InputRoot>
-                                    <Label >Name</Label>
+                                    <Label >Provider</Label>
                                     <Controller
                                         name='providerId'
                                         control={control}
@@ -144,6 +161,16 @@ function EmailsManeger() {
                                     <Label >Name</Label>
                                     <InputText placeholder='Name' {...register('name', { disabled: !isEditing })} />
                                     <Span variation='error'>{errors.name?.message}</Span>
+                                </InputRoot>
+                                <InputRoot>
+                                    <Label >Last name</Label>
+                                    <InputText placeholder='Last name' {...register('lastName', { disabled: !isEditing })} />
+                                    <Span variation='error'>{errors.lastName?.message}</Span>
+                                </InputRoot>
+                                <InputRoot>
+                                    <Label >Birth Data</Label>
+                                    <InputText mask={MASK.DATE} placeholder='00/00/0000' {...register('birthDate', { disabled: !isEditing })} />
+                                    <Span variation='error'>{errors.birthDate?.message}</Span>
                                 </InputRoot>
                                 <InputRoot>
                                     <Label >Username</Label>

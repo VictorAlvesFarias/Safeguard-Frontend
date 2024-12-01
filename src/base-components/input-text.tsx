@@ -34,6 +34,7 @@ const TextContainer = forwardRef((props: ITextContainerProps, ref: RefCallBack |
     };
 
     function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+        console.log(props.mask)
         if (props.mask) {
             const [regex, replacement] = props.mask;
             e.target.value = e.target.value.replace(/\D/g, '')

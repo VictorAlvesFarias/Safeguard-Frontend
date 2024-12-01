@@ -23,6 +23,10 @@ import DropdownOption from '../../../components/dropdown-option'
 import { EmailEntity } from '../../../interfaces/entities/email-entity';
 import { emailService } from '../../../services/emails-service';
 import { base64ToImage } from '../../../utils/extensions/image';
+import { MASK } from '../../../config/mask-confg';
+import moment from 'moment';
+import { AccountEntity } from '../../../interfaces/entities/account-entity';
+import { dateFormat } from '../../../utils/extensions/date';
 
 function AccountsManeger() {
     const [finished, setQuery, setFinished] = useQuery(false)
@@ -44,6 +48,10 @@ function AccountsManeger() {
         platformId: z.number(),
         phone: z.string().nonempty('Required'),
         name: z.string().nonempty('Required'),
+        lastName: z.string(),
+        birthDate: z.string().refine(value => moment(value, "DD/MM/YYYY").isValid(), {
+            message: "Invalid date"
+        }),
         username: z.string().nonempty('Required'),
         password: z.string().nonempty('Required'),
     })
@@ -54,13 +62,19 @@ function AccountsManeger() {
     )
 
     function handleAddAccount(data) {
-        return accountService.add(data)
+        return accountService.add({
+            ...data,
+            birthDate: new Date(dateFormat(data.birthDate))
+        })
             .then(r => {
                 navigate(back)
             })
     }
     function handleUpdateAccount(data) {
-        return accountService.update(data, urlParams.id)
+        return accountService.update({
+            ...data,
+            birthDate: new Date(dateFormat(data.birthDate))
+        }, urlParams.id)
             .then(() => {
                 setIsEditing(false)
             })
@@ -75,10 +89,18 @@ function AccountsManeger() {
     }
     function handleGetAccount() {
         return accountService.getById({ id: urlParams.id })
-            .then(({ res }: any) => {
-                reset(res)
+            .then(({ res }) => {
+                reset({
+                    ...res,
+                    birthDate: moment(res.birthDate).format("DD/MM/YYYY")
+                })
                 setIsEditable(true)
-                setCurrentImage(res.image.base64)
+                setCurrentImage(
+                    res.platform.image == null ?
+                        base64ToImage(res.email.provider.image.base64, res.email.provider.image.mimeType)
+                        :
+                        base64ToImage(res.platform.image.base64, res.platform.image.mimeType)
+                )
             })
     }
     function handleGetPlatforms() {
@@ -117,11 +139,11 @@ function AccountsManeger() {
         const emailImage = emails.filter(e => e.id == watch("emailId"))[0]?.provider?.image
 
         if (platformImage) {
-            setCurrentImage(base64ToImage(platformImage?.base64,platformImage?.mimeType))
-            setCurrentImageSecundary(base64ToImage(emailImage?.base64,emailImage?.mimeType))
-        } 
+            setCurrentImage(base64ToImage(platformImage?.base64, platformImage?.mimeType))
+            setCurrentImageSecundary(base64ToImage(emailImage?.base64, emailImage?.mimeType))
+        }
         else {
-            setCurrentImage(base64ToImage(emailImage?.base64,emailImage?.mimeType))
+            setCurrentImage(base64ToImage(emailImage?.base64, emailImage?.mimeType))
         }
     }, [watch("emailId"), watch("platformId")])
 
@@ -134,7 +156,7 @@ function AccountsManeger() {
                     </Link>
                     <h1 className='font-bold font- text-white text-3xl font-sans '>New Account</h1>
                 </div>
-                <Loading loading={!finished} /> 
+                <Loading loading={!finished} />
                 <If conditional={finished}>
                     <div className='flex gap-3 w-full  my-28 rounded items-center justify-center  flex-col p-3  center '>
                         <div className='w-48 h-48 bg-tertiary rounded center relative'>
@@ -187,8 +209,18 @@ function AccountsManeger() {
                                 </InputRoot>
                                 <InputRoot>
                                     <Label >Name</Label>
-                                    <InputText placeholder='Nome' {...register('name', { disabled: !isEditing })} />
+                                    <InputText placeholder='Name' {...register('name', { disabled: !isEditing })} />
                                     <Span variation='error'>{errors.name?.message}</Span>
+                                </InputRoot>
+                                <InputRoot>
+                                    <Label >Last name</Label>
+                                    <InputText placeholder='Last name' {...register('lastName', { disabled: !isEditing })} />
+                                    <Span variation='error'>{errors.lastName?.message}</Span>
+                                </InputRoot>
+                                <InputRoot>
+                                    <Label >Birth Data</Label>
+                                    <InputText mask={MASK.DATE} placeholder='00/00/0000' {...register('birthDate', { disabled: !isEditing })} />
+                                    <Span variation='error'>{errors.birthDate?.message}</Span>
                                 </InputRoot>
                                 <InputRoot>
                                     <Label >Phone</Label>

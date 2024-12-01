@@ -6,6 +6,8 @@ interface AccountEntity {
     platform: PlatformEntity
     email: EmailEntity
     name: string
+    lastName: string
+    birthDate: string
     username: string
     phone: string
     password: string
