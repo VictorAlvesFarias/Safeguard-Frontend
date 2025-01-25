@@ -12,6 +12,7 @@ const USER_ROUTES = {
   PLATFORMS: "platforms",
   LOGIN: "/login",
   PROFILE: "/profile",
+  RECOVERY_KEYS: "/recovery-keys",
 };
 
 export {

@@ -12,7 +12,7 @@ const buttonVariations = {
         loadingComponent={
           <LucideLoaderCircle className='w-6 h-6 rotating-div' />
         }
-        className='bg-main-violet-500 text-white text-nowrap px-9 w-fit rounded-full shadow hover:bg-opacity-70 transition-all h-9 p-1  font-semibold flex justify-center items-center' />
+        className='bg-main-violet-500 text-white text-nowrap px-9 w-fit rounded-full shadow hover:bg-opacity-70 transition-all h-11 p-1  font-semibold flex justify-center items-center' />
     )
   },
   "default-full": (props: IButtonContainerProps, ref: any) => {
@@ -23,7 +23,7 @@ const buttonVariations = {
         loadingComponent={
           <LucideLoaderCircle className='w-6 h-6 rotating-div' />
         }
-        className='bg-main-violet-500 aria-disabled:bg-zinc-600 text-white text-nowrap px-9 w-full rounded-full shadow hover:bg-opacity-70 transition-all h-9 p-1  font-semibold flex justify-center items-center' />
+        className='bg-main-violet-500 aria-disabled:bg-zinc-600 text-white text-nowrap px-9 w-full rounded-full shadow hover:bg-opacity-70 transition-all h-11 p-1  font-semibold flex justify-center items-center' />
     )
   },
   red: (props: IButtonContainerProps, ref: any) => {
@@ -34,7 +34,7 @@ const buttonVariations = {
         loadingComponent={
           <LucideLoaderCircle className='w-6 h-6 rotating-div' />
         }
-        className='bg-red-500 text-white px-2 w-full shadow hover:bg-opacity-70 rounded-full transition-all h-9 p-1 font-semibold flex justify-center items-center' />
+        className='bg-red-500 text-white px-2 w-full shadow hover:bg-opacity-70 rounded-full transition-all h-11 p-1 font-semibold flex justify-center items-center' />
     )
   },
   href: (props: IButtonContainerProps, ref: any) => {

@@ -1,32 +1,34 @@
-import React, { useEffect, useState } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { z } from 'zod';
+import DropdownContext from '../../../base-components/dropdown-context';
+import If from '../../../base-components/if';
+import Button from '../../../components/button';
 import Content from "../../../components/content";
+import DropdownMenu from '../../../components/dropdown-menu';
+import DropdownOption from '../../../components/dropdown-option';
+import DropdownRoot from '../../../components/dropdown-root';
+import Form from '../../../components/form';
+import InputRoot from '../../../components/input-root';
+import InputText from '../../../components/input-text';
+import Label from '../../../components/label';
+import Span from '../../../components/span';
+import { MASK } from '../../../config/mask-confg';
+import { EmailEntity } from '../../../interfaces/entities/email-entity';
+import { PlatformEntity } from '../../../interfaces/entities/platform-entity';
+import { accountService } from '../../../services/accounts-service';
+import { emailService } from '../../../services/emails-service';
+import { platformService } from '../../../services/platforms-service';
+import { dateFormat } from '../../../utils/extensions/date';
+import { base64ToImage } from '../../../utils/extensions/image';
 import { useQuery } from "../../../utils/hooks/query-hooks";
 import Loading from "../../helpers/loading/loading";
-import InputText from '../../../components/input-text';
-import Form from '../../../components/form';
-import Button from '../../../components/button';
-import InputRoot from '../../../components/input-root'
-import Span from '../../../components/span'
-import Label from '../../../components/label'
-import { Controller, useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { accountService } from '../../../services/accounts-service';
-import If from '../../../base-components/if';
-import { platformService } from '../../../services/platforms-service';
-import { PlatformEntity } from '../../../interfaces/entities/platform-entity';
-import DropdownContext from '../../../base-components/dropdown-context';
-import DropdownRoot from '../../../components/dropdown-root';
-import DropdownMenu from '../../../components/dropdown-menu';
-import DropdownOption from '../../../components/dropdown-option'
-import { EmailEntity } from '../../../interfaces/entities/email-entity';
-import { emailService } from '../../../services/emails-service';
-import { base64ToImage } from '../../../utils/extensions/image';
-import { MASK } from '../../../config/mask-confg';
-import moment from 'moment';
-import { AccountEntity } from '../../../interfaces/entities/account-entity';
-import { dateFormat } from '../../../utils/extensions/date';
+import { USER_ROUTES } from '../../../config/routes-config';
+import { ChevronLeft } from 'lucide-react';
+
 
 function AccountsManeger() {
     const [finished, setQuery, setFinished] = useQuery(false)
@@ -61,6 +63,16 @@ function AccountsManeger() {
         }
     )
 
+    function getEmail() {
+        const email = emails.find(e => e.id == watch("emailId"))
+
+        return email
+    }
+    function getPlatform() {
+        const platform = platforms.find(e => e.id == watch("platformId"))
+
+        return platform
+    }
     function handleAddAccount(data) {
         return accountService.add({
             ...data,
@@ -114,7 +126,6 @@ function AccountsManeger() {
         })
     }
 
-
     useEffect(() => {
         if (urlParams.id != null) {
             setQuery([
@@ -149,20 +160,36 @@ function AccountsManeger() {
 
     return (
         <Content >
-            <div className='bg-fort w-full h-full overflow-auto relative transition-all bg-gradient-to-t from-main-black-800 to-transparent duration-500   bg-main-violet-900'>
+            <div className='bg-fort w-full h-full overflow-auto relative transition-all bg-gradient-to-t from-main-black-800 to-transparent duration-500 bg-main-violet-900'>
                 <div className='flex w-full gap-3 items-center p-6'>
-                    <Link className='cursor-pointer  bg-white bg-opacity-5 border-2 border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={back}>
-                        Return
+                    <Link className='cursor-pointer  bg-white bg-opacity-5 hover:bg-opacity-15 w-10 h-10 flex items-center justify-center border-2 border-zinc-400 rounded-full top-0 left-0 ' to={back}>
+                        <ChevronLeft />
                     </Link>
-                    <h1 className='font-bold font- text-white text-3xl font-sans '>New Account</h1>
+                    <h1 className='font-bold font- text-white text-3xl font-sans '>{!urlParams.id ? "New Account" : "Account"}</h1>
                 </div>
                 <Loading loading={!finished} />
                 <If conditional={finished}>
                     <div className='flex gap-3 w-full  my-28 rounded items-center justify-center  flex-col p-3  center '>
                         <div className='w-48 h-48 bg-tertiary rounded center relative'>
                             {currentImage && <img className='w-16 min-h-16 ' src={currentImage}></img>}
-                            {currentImageSecundary && <img className='w-9 min-h-9 absolute bottom-0 right-0' src={currentImageSecundary}></img>}
+                            {currentImageSecundary && <img className='w-9 min-h-9 absolute bottom-0 right-0 m-1' src={currentImageSecundary}></img>}
                         </div>
+                        <If conditional={urlParams.id != null}>
+                            <Link
+                                className='cursor-pointer  bg-white bg-opacity-5 border-2 border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 '
+                                to={`${USER_ROUTES.RECOVERY_KEYS}?id=${urlParams.id}`}
+                                state={
+                                    {
+                                        currentImage,
+                                        currentImageSecundary,
+                                        email: `${getEmail()?.username}@${getEmail()?.provider.signature}`,
+                                        platform: getPlatform()?.name
+                                    }
+                                }
+                            >
+                                Recovery Key
+                            </Link>
+                        </If>
                         <div className=' w-full flex-1 rounded center max-w-96 flex-col'>
                             <Form variation='card' onSubmit={handleSubmit((e) => handleAddOrUpdate(e))} >
                                 <InputRoot>
@@ -176,7 +203,7 @@ function AccountsManeger() {
                                                     <DropdownRoot {...field} disabled={!isEditing} placeholder='Provider'>
                                                         <DropdownMenu>
                                                             {emails.map((e, i) =>
-                                                                <DropdownOption key={i} label={e.name} value={e.id} />
+                                                                <DropdownOption key={i} label={`${e.username}@${e.provider.signature}`} value={e.id} />
                                                             )}
                                                         </DropdownMenu>
                                                     </DropdownRoot>

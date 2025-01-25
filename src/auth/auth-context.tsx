@@ -29,7 +29,7 @@ function customNavigate() {
 }
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
-  const token = Cookies.get('accessToken');
+  const token = Cookies.get('token');
   const permissions = Cookies.get('claims');
   const loginService = new LoginService()
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
@@ -76,9 +76,9 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
-    const expirationDate: any = Cookies.get("expirationDateTimeAccessToken")
-
-    if (((expirationDate == null || expirationDate == undefined) || token == null || token == undefined) && AUTH.DISABLE_AUTH == false) {
+    const expirationDate: any = Cookies.get("expectedExpirationTokenDateTime")
+    console.log(expirationDate == null , token == null  , AUTH.DISABLE_AUTH == false)
+    if ((expirationDate == null || token == null ) && AUTH.DISABLE_AUTH == false) {
       if (!AUTH.AUTHORIZE_NOT_REQUIRED.includes(window.location.pathname)) {
         authContext.logout()
       }

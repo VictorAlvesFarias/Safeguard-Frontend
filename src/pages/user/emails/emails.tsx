@@ -15,6 +15,7 @@ import TableRow from '../../../components/table-row'
 import TableCell from '../../../components/table-cell'
 import { EmailEntity } from '../../../interfaces/entities/email-entity'
 import { base64ToImage } from '../../../utils/extensions/image';
+import { copyToClipboard } from '../../../utils/extensions/clipboard';
 
 function Emails() {
     const [finished, setQuerys, setFinished] = useQuery()
@@ -89,7 +90,7 @@ function Emails() {
                                             <p className='font-semibold'>{e.username}@{e.provider.signature}</p>
                                         </TableCell>
                                         <TableCell variation='body'>
-                                            <button className='z-20  p-3 group-hover:opacity-100 transition-all hover:text-main-violet-100 '>
+                                            <button onClick={() => copyToClipboard(e.password)} className='z-20  p-3 group-hover:opacity-100 transition-all hover:text-main-violet-100 '>
                                                 <CopyIcon />
                                             </button>
                                         </TableCell>

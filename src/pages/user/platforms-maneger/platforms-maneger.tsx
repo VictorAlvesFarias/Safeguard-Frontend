@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toFormData } from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { z } from 'zod';
+import If from '../../../base-components/if';
+import ModalContext from '../../../base-components/modal-context';
+import ModalOpen from '../../../base-components/modal-open';
+import ModalRoot from '../../../base-components/modal-root';
+import Button from '../../../components/button';
 import Content from "../../../components/content";
+import Form from '../../../components/form';
+import InputRoot from '../../../components/input-root';
+import InputText from '../../../components/input-text';
+import Label from '../../../components/label';
+import Span from '../../../components/span';
+import FilesManagerDialog from '../../../dialogs/files-manager-dialog/files-manager-dialog';
+import { FileEntity } from '../../../interfaces/entities/file-entity';
+import { platformService } from '../../../services/platforms-service';
+import { base64ToImage } from '../../../utils/extensions/image';
 import { useQuery } from "../../../utils/hooks/query-hooks";
 import Loading from "../../helpers/loading/loading";
-import InputText from '../../../components/input-text';
-import Form from '../../../components/form';
-import Button from '../../../components/button';
-import InputRoot from '../../../components/input-root'
-import Span from '../../../components/span'
-import Label from '../../../components/label'
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { platformService } from '../../../services/platforms-service';
-import If from '../../../base-components/if';
-import { base64ToImage } from '../../../utils/extensions/image';
-import { toFormData } from 'axios';
-import ModalContext from '../../../base-components/modal-context';
-import ModalRoot from '../../../base-components/modal-root';
-import FilesManagerDialog from '../../../dialogs/files-manager-dialog/files-manager-dialog';
-import ModalOpen from '../../../base-components/modal-open';
-import { FileEntity } from '../../../interfaces/entities/file-entity';
+import { ChevronLeft } from 'lucide-react';
 
 function PlatformsManeger() {
     const [finished, setQuery, setFinished] = useQuery(false)
@@ -91,10 +92,10 @@ function PlatformsManeger() {
         <Content >
             <div className='bg-fort w-full h-full overflow-auto relative transition-all bg-gradient-to-t from-main-black-800 to-transparent duration-500   bg-main-violet-900'>
                 <div className='flex w-full gap-3 items-center p-6'>
-                    <Link className='cursor-pointer  bg-white bg-opacity-5 border-2 border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={back}>
-                        Return
+                    <Link className='cursor-pointer  bg-white bg-opacity-5 hover:bg-opacity-15 w-10 h-10 flex items-center justify-center border-2 border-zinc-400 rounded-full top-0 left-0 ' to={back}>
+                        <ChevronLeft />
                     </Link>
-                    <h1 className='font-bold font- text-white text-3xl font-sans '>New Platform</h1>
+                    <h1 className='font-bold font- text-white text-3xl font-sans '>{urlParams.id ? "Platform" : "New Platform"}</h1>
                 </div>
                 <Loading loading={!finished} />
                 <If conditional={finished}>

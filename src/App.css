@@ -6,23 +6,24 @@ input:focus-visible {
     outline: white;
 }
 
- body, * {
+body,
+* {
     margin: 0;
     padding: 0;
-    z-index: none; 
+    z-index: none;
 }
 
 .bg-primary {
-    background: rgb(18,18,18);
-    background: linear-gradient(0deg, rgba(18,18,18,1) 38%, rgba(33,33,33,1) 83%);
+    background: rgb(18, 18, 18);
+    background: linear-gradient(0deg, rgba(18, 18, 18, 1) 38%, rgba(33, 33, 33, 1) 83%);
 }
 
 .bg-primary-solid {
-    background-color: rgba(33,33,33,1);
+    background-color: rgba(33, 33, 33, 1);
 }
 
 .bg-secundary-solid {
-    background-color: rgba(18,18,18,1);
+    background-color: rgba(18, 18, 18, 1);
 }
 
 
@@ -31,7 +32,7 @@ input:focus-visible {
 }
 
 .bg-tertiary-solid {
-    background-color:  rgba(5,5,5,1)
+    background-color: rgba(5, 5, 5, 1)
 }
 
 .bg-tertiary {
@@ -39,13 +40,13 @@ input:focus-visible {
 }
 
 .bg-fort {
-    background: rgb(18,18,18);
-    background: linear-gradient(0deg, rgba(18,18,18,1) 41%, rgba(5,5,5,1) 100%);
+    background: rgb(18, 18, 18);
+    background: linear-gradient(0deg, rgba(18, 18, 18, 1) 41%, rgba(5, 5, 5, 1) 100%);
 }
 
 .bg-q {
-    background: rgb(46,46,46);
-    background: linear-gradient(0deg, rgba(46,46,46,1) 41%, rgba(86,86,86,1) 100%);
+    background: rgb(46, 46, 46);
+    background: linear-gradient(0deg, rgba(46, 46, 46, 1) 41%, rgba(86, 86, 86, 1) 100%);
 }
 
 .font-primary {
@@ -60,11 +61,12 @@ input:focus-visible {
     fill: white;
 }
 
-.teste1 {
-    background: rgb(18,18,18);
-    background: linear-gradient(0deg, rgba(18,18,18,1) 41%, rgba(5,5,5,1) 100%);
+.rotating-div {
+    animation: spin 1s linear infinite
 }
-.teste2 {
-    background: rgb(46,46,46);
-    background: linear-gradient(0deg, rgba(46,46,46,1) 41%, rgba(86,86,86,1) 100%);
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

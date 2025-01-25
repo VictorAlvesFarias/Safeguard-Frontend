@@ -22,6 +22,7 @@ import ModalRoot from '../../../components/modal-root';
 import FilesManagerDialog from '../../../dialogs/files-manager-dialog/files-manager-dialog';
 import ModalOpen from '../../../base-components/modal-open';
 import { FileEntity } from '../../../interfaces/entities/file-entity';
+import { ChevronLeft } from 'lucide-react';
 
 function ProvidersManeger() {
     const [finished, setQuery, setFinished] = useQuery(false)
@@ -94,10 +95,10 @@ function ProvidersManeger() {
         <Content >
             <div className='bg-fort w-full h-full overflow-auto relative transition-all bg-gradient-to-t from-main-black-800 to-transparent duration-500   bg-main-violet-900'>
                 <div className='flex w-full gap-3 items-center p-6'>
-                    <Link className='cursor-pointer  bg-white bg-opacity-5 border-2 border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 ' to={back}>
-                        Return
+                    <Link className='cursor-pointer  bg-white bg-opacity-5 hover:bg-opacity-15 w-10 h-10 flex items-center justify-center border-2 border-zinc-400 rounded-full top-0 left-0 ' to={back}>
+                        <ChevronLeft />
                     </Link>
-                    <h1 className='font-bold font- text-white text-3xl font-sans '>New Provider</h1>
+                    <h1 className='font-bold font- text-white text-3xl font-sans '>{urlParams.id ? "Provider" : "New Provider"}</h1>
                 </div>
                 <Loading loading={!finished} />
                 <If conditional={finished}>
