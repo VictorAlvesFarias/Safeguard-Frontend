@@ -13,6 +13,7 @@ const USER_ROUTES = {
   LOGIN: "/login",
   PROFILE: "/profile",
   RECOVERY_KEYS: "/recovery-keys",
+  RECOVERY_EMAILS: "/recovery-emails",
 };
 
 export {

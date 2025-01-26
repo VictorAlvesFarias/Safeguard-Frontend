@@ -174,23 +174,42 @@ function AccountsManeger() {
                             {currentImage && <img className='w-16 min-h-16 ' src={currentImage}></img>}
                             {currentImageSecundary && <img className='w-9 min-h-9 absolute bottom-0 right-0 m-1' src={currentImageSecundary}></img>}
                         </div>
-                        <If conditional={urlParams.id != null}>
-                            <Link
-                                className='cursor-pointer  bg-white bg-opacity-5 border-2 border-zinc-400 p-1.5 px-3 rounded-full top-0 left-0 '
-                                to={`${USER_ROUTES.RECOVERY_KEYS}?id=${urlParams.id}`}
-                                state={
-                                    {
-                                        currentImage,
-                                        currentImageSecundary,
-                                        email: `${getEmail()?.username}@${getEmail()?.provider.signature}`,
-                                        platform: getPlatform()?.name
-                                    }
-                                }
-                            >
-                                Recovery Key
-                            </Link>
-                        </If>
-                        <div className=' w-full flex-1 rounded center max-w-96 flex-col'>
+                        <div className=' w-full flex-1 rounded center max-w-96 flex-col gap-3'>
+                            <If conditional={urlParams.id != null}>
+                                <InputRoot>
+                                    <Label>Recovery options</Label>
+                                    <div className='w-full bg-black bg-opacity-30  flex flex-col gap-3 p-3 rounded'>
+                                        <Link
+                                            className='cursor-pointer hover:text-violet-500 transition font-semibold'
+                                            to={`${USER_ROUTES.RECOVERY_KEYS}?id=${urlParams.id}`}
+                                            state={
+                                                {
+                                                    currentImage,
+                                                    currentImageSecundary,
+                                                    email: `${getEmail()?.username}@${getEmail()?.provider.signature}`,
+                                                    platform: getPlatform()?.name
+                                                }
+                                            }
+                                        >
+                                            Keys
+                                        </Link>
+                                        <Link
+                                            className='cursor-pointer hover:text-violet-500 transition font-semibold'
+                                            to={`${USER_ROUTES.RECOVERY_EMAILS}?id=${urlParams.id}`}
+                                            state={
+                                                {
+                                                    currentImage,
+                                                    currentImageSecundary,
+                                                    email: `${getEmail()?.username}@${getEmail()?.provider.signature}`,
+                                                    platform: getPlatform()?.name
+                                                }
+                                            }
+                                        >
+                                            E-mails
+                                        </Link>
+                                    </div>
+                                </InputRoot>
+                            </If>
                             <Form variation='card' onSubmit={handleSubmit((e) => handleAddOrUpdate(e))} >
                                 <InputRoot>
                                     <Label >Email</Label>
@@ -200,7 +219,7 @@ function AccountsManeger() {
                                         render={({ field, field: { onChange } }) => {
                                             return (
                                                 <DropdownContext onChange={onChange}>
-                                                    <DropdownRoot {...field} disabled={!isEditing} placeholder='Provider'>
+                                                    <DropdownRoot  {...field} disabled={!isEditing} placeholder='Provider'>
                                                         <DropdownMenu>
                                                             {emails.map((e, i) =>
                                                                 <DropdownOption key={i} label={`${e.username}@${e.provider.signature}`} value={e.id} />

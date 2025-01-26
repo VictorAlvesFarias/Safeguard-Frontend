@@ -6,7 +6,7 @@ const dropdownMenuVariations = {
     default: (props: IDropdownMenuContainerProps) =>
         <DropdownMenuContainer
             {...props}
-            className='rounded border bg-zinc-100 text-zinc-800 p-1 gap-2 mt-1 shadow-lg max-h-40 overflow-auto'
+            className='rounded bg-zinc-900 text-zinc-100 p-1 gap-2 mt-1 shadow-lg max-h-40 overflow-auto'
         />
 }
 

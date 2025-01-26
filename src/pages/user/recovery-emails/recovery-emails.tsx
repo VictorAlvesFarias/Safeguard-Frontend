@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ChevronLeft, CopyIcon, TrashIcon, UsersIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 import Content from "../../../components/content";
@@ -15,22 +15,32 @@ import CardLoading from '../../helpers/loading/card-loading';
 import { copyToClipboard } from '../../../utils/extensions/clipboard';
 import InputText from '../../../components/input-text';
 import Button from '../../../components/button';
-import { recoveryKeyService } from '../../../services/recovery-key-service';
-import { RecoveryKey } from '../../../interfaces/entities/recovery-key-entity';
+import InputRoot from '../../../components/input-root';
+import Label from '../../../components/label';
+import DropdownContext from '../../../base-components/dropdown-context';
+import DropdownRoot from '../../../components/dropdown-root';
+import DropdownMenu from '../../../components/dropdown-menu';
+import DropdownOption from '../../../components/dropdown-option';
+import { EmailEntity } from '../../../interfaces/entities/email-entity';
+import Span from '../../../components/span';
+import { RecoveryEmail } from '../../../interfaces/entities/recovery-email-entity ';
+import { recoveryEmailService } from '../../../services/recovery-email-service';
+import { emailService } from '../../../services/emails-service';
 
-function RecoveryKeys() {
+function RecoveryEmails() {
     const [finished, setQuerys, setFinished] = useQuery(true)
     const back: any = -1
     const navigate = useNavigate()
     const [searchParams, setSearchParams] = useSearchParams()
     const { state } = useLocation()
-    const [keys, setKeys] = useState<RecoveryKey[]>([])
+    const [emails, setEmails] = useState<EmailEntity[]>([])
+    const [recoveryEmails, setRecoveryEmails] = useState<RecoveryEmail[]>([])
 
     const schema = z.object({
-        key: z.string().nonempty()
+        emailId: z.number()
     })
 
-    const { handleSubmit, register, formState: { errors } } = useForm<z.infer<typeof schema>>({
+    const { handleSubmit, register, formState: { errors }, control } = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema)
     })
 
@@ -38,31 +48,38 @@ function RecoveryKeys() {
         id: searchParams.get("id")
     }
 
-    function handleDeleteKey(id: string) {
-        return recoveryKeyService.remove(id)
+    function handleDeleteRecoveryEmail(id: number) {
+        return recoveryEmailService.remove(id)
             .then(e => {
-                setQuerys(() => getRecoveryKeys())
+                setQuerys(() => getRecoveryEmails())
             })
     }
-    function handleAddRecoveryKey(data) {
-        return recoveryKeyService.add({
+    function handleAddRecoveryEmail(data) {
+        return recoveryEmailService.add({
             ...data,
             referenceId: urlParams.id,
             referenceType: 'Account'
         })
             .then(e => {
-                setQuerys(() => getRecoveryKeys())
+                setQuerys(() => getRecoveryEmails())
             })
     }
-    function getRecoveryKeys() {
-        return recoveryKeyService.getAll({ referenceId: urlParams.id, type: 'Account' })
+    function getRecoveryEmails() {
+        return recoveryEmailService.getAll({ referenceId: urlParams.id, type: 'Account' })
             .then(({ res }) => {
-                setKeys(res)
+                setRecoveryEmails(res)
+            })
+    }
+    function getEmails() {
+        return emailService.getAll()
+            .then(({ res }) => {
+                setEmails(res)
             })
     }
 
     useEffect(() => {
-        setQuerys(() => getRecoveryKeys())
+        setQuerys(() => getRecoveryEmails())
+        setQuerys(() => getEmails())
     }, [])
 
     return (
@@ -72,7 +89,7 @@ function RecoveryKeys() {
                     <Link className='cursor-pointer  bg-white bg-opacity-5 hover:bg-opacity-15 w-10 h-10 flex items-center justify-center border-2 border-zinc-400 rounded-full top-0 left-0 ' to={back}>
                         <ChevronLeft />
                     </Link>
-                    <h1 className='font-bold font- text-white text-3xl font-sans '>Recovery Keys</h1>
+                    <h1 className='font-bold font- text-white text-3xl font-sans '>Recovery Emails</h1>
                 </div>
                 <div className='flex gap-6 items-end pl-6 pb-6'>
                     <div className='w-28 h-28 bg-tertiary rounded center relative '>
@@ -85,10 +102,26 @@ function RecoveryKeys() {
                     </div>
                 </div>
                 <div className='overflow-auto bg-opacity-50 min-h-full w-full p-6 gap-6 flex flex-col    '>
-                    <form className='flex gap-3' onSubmit={handleSubmit((e) => setQuerys(() => handleAddRecoveryKey(e)))}>
-                        <div className='w-full max-w-80'>
-                            <InputText {...register('key')} placeholder='New key' variation='ultra-rounded'></InputText>
-                        </div>
+                    <form className='flex gap-3' onSubmit={handleSubmit((e) => setQuerys(() => handleAddRecoveryEmail(e)))}>
+                        <InputRoot>
+                            <Controller
+                                name='emailId'
+                                control={control}
+                                render={({ field, field: { onChange } }) => {
+                                    return (
+                                        <DropdownContext onChange={onChange}>
+                                            <DropdownRoot variation='ultra-rounded' {...field} placeholder='Select e-mail'>
+                                                <DropdownMenu>
+                                                    {emails.map((e, i) =>
+                                                        <DropdownOption key={i} label={`${e.username}@${e.provider.signature}`} value={e.id} />
+                                                    )}
+                                                </DropdownMenu>
+                                            </DropdownRoot>
+                                        </DropdownContext>
+                                    )
+                                }}
+                            />
+                        </InputRoot>
                         <Button>Add</Button>
                     </form>
                     <CardLoading loading={!finished}>
@@ -96,16 +129,16 @@ function RecoveryKeys() {
                             <TableHead>
                                 <TableRow variation='default-head'>
                                     <TableCell variation='head'>#</TableCell>
-                                    <TableCell variation='head-full'>Key</TableCell>
+                                    <TableCell variation='head-full'>Email</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody >
-                                {keys.map((item, index) =>
+                                {recoveryEmails.map((item, index) =>
                                     <TableRow>
                                         <TableCell variation='body'>{index + 1}</TableCell>
                                         <TableCell variation='body'>
                                             <div className='flex flex-col'>
-                                                <p className='font-semibold text-base text-zinc-300'>{item.key}</p>
+                                                <p className='font-semibold text-base text-zinc-300'>{item.email}</p>
                                             </div>
                                         </TableCell>
                                         <TableCell variation='body'>
@@ -114,7 +147,7 @@ function RecoveryKeys() {
                                             </button>
                                         </TableCell>
                                         <TableCell variation='body'>
-                                            <button onClick={() => setQuerys(() => handleDeleteKey(item.id))} className='z-20  p-3 group-hover:opacity-100 transition-all hover:text-red-400 '>
+                                            <button onClick={() => setQuerys(() => handleDeleteRecoveryEmail(item.id))} className='z-20  p-3 group-hover:opacity-100 transition-all hover:text-red-400 '>
                                                 <TrashIcon />
                                             </button>
                                         </TableCell>
@@ -130,4 +163,4 @@ function RecoveryKeys() {
     )
 }
 
-export default RecoveryKeys
+export default RecoveryEmails

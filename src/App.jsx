@@ -15,24 +15,7 @@ function App() {
     <ReduxProvider store={store}>
       <Router>
         <AuthProvider>
-          <ToastContainer
-            theme="dark"
-            hideProgressBar={true}
-            icon={({ type, theme }) => {
-              switch (type) {
-                case 'info':
-                  return <Info className="stroke-indigo-400" />;
-                case 'error':
-                  return <CircleAlert className="stroke-red-500" />;
-                case 'success':
-                  return <Check className="stroke-white" />;
-                case 'warning':
-                  return <TriangleAlert className="stroke-yellow-500" />;
-                default:
-                  return null;
-              }
-            }}
-          />
+          <ToastContainer theme="dark" />
           <Routes>
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<Signup />} />

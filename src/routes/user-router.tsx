@@ -31,6 +31,7 @@ import EmailsManeger from "../pages/user/emails-maneger/emails-maneger";
 import AccountsManeger from "../pages/user/accounts-maneger/accounts-maneger";
 import Accounts from "../pages/user/accounts/accounts";
 import RecoveryKeys from "../pages/user/recovery-keys/recovery-keys";
+import RecoveryEmails from "../pages/user/recovery-emails/recovery-emails";
 
 function UserRouters() {
   const { logout, isAuthenticated } = useContext(AuthContext);
@@ -106,6 +107,7 @@ function UserRouters() {
               <Route path={USER_ROUTES.EMAILS} element={<Emails />} />
               <Route path={USER_ROUTES.MANAGER_EMAILS} element={<EmailsManeger />} />
               <Route path={USER_ROUTES.RECOVERY_KEYS} element={<RecoveryKeys />} />
+              <Route path={USER_ROUTES.RECOVERY_EMAILS} element={<RecoveryEmails />} />
             </Routes>
           </SidebarContent>
         </SidebarRoot>

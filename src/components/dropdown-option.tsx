@@ -4,7 +4,7 @@ import { useSelector } from "../utils/hooks/selector-hooks"
 
 const optionVaritions = {
     default: (props: IDropdownOptionContainerProps) =>
-        <DropdownOptionContainer {...props} className='min-h-8 text-nowrap  hover:bg-zinc-300 rounded cursor-pointer flex items-center px-3' />,
+        <DropdownOptionContainer {...props} className='min-h-8 text-nowrap  hover:bg-zinc-800 rounded cursor-pointer flex items-center px-3' />,
 }
 
 const Option = useSelector<keyof typeof optionVaritions, IDropdownOptionContainerProps>(optionVaritions)
