@@ -1,5 +1,5 @@
 import React from "react"
-import { useSelector } from "../utils/hooks/selector-hooks"
+import { componentSelector } from "../utils/helpers/component-selector"
 
 const rowVariations = {
     default: (props: React.HTMLAttributes<HTMLTableRowElement>) =>
@@ -8,6 +8,6 @@ const rowVariations = {
         <tr {...props} className="px-6 cursor-pointer aria-selected:bg-black aria-selected:bg-opacity-10" />,
 }
 
-const TableRow = useSelector<keyof typeof rowVariations, React.HTMLAttributes<HTMLTableRowElement>>(rowVariations)
+const TableRow = componentSelector<keyof typeof rowVariations, React.HTMLAttributes<HTMLTableRowElement>>(rowVariations)
 
 export default TableRow

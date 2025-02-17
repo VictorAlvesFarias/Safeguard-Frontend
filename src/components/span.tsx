@@ -1,4 +1,4 @@
-import { useSelector } from "../utils/hooks/selector-hooks"
+import { componentSelector } from "../utils/helpers/component-selector"
 import React from "react"
 
 const spanVariations = {
@@ -15,6 +15,6 @@ const spanVariations = {
       className='bg-main-violet-500 text-white text-nowrap px-9 w-full rounded-full shadow hover:bg-opacity-70 transition-all h-9 p-1  font-semibold flex justify-center items-center' />
 }
 
-const Span = useSelector<keyof typeof spanVariations, React.HTMLAttributes<HTMLSpanElement>>(spanVariations)
+const Span = componentSelector<keyof typeof spanVariations, React.HTMLAttributes<HTMLSpanElement>>(spanVariations)
 
 export default Span
