@@ -1,10 +1,10 @@
 import Cookies from 'js-cookie';
 import React from 'react';
 import { createContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { LoginService } from '../services/login-service';
+import { loginService } from '../services/login-service';
 import { AUTH } from '../config/auth-config';
 import { AuthContextType } from '../interfaces/shared/auth-context';
+import { AuthenticationService } from '../services/authentication-service';
 
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
@@ -13,94 +13,50 @@ const AuthContext = createContext<AuthContextType>({
   permissions: null
 });
 
-function customNavigate() {
-  const navigate = useNavigate()
-
-  function handleNavigate(url) {
-    if(AUTH.AUTENTICATE_PAGE_RELOAD){
-      window.location.href = url
-    }
-    else {
-      navigate(url)
-    }
-  }
-
-  return handleNavigate
-}
-
 function AuthProvider({ children }: { children: React.ReactNode }) {
-  const token = Cookies.get('token');
+  const token = Cookies.get('accessToken');
   const permissions = Cookies.get('claims');
-  const loginService = new LoginService()
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
-  const [timeoutStarted, setTimeoutStarted] = useState(false);
-  const navigate = customNavigate();
   const [permissionsContext, setPermissionsContext] = useState(JSON.parse(permissions ?? "{}"));
+  const expirationDate: any = Cookies.get("expectedExpirationTokenDateTime")
 
-  function signIn(data) {
+  function handleLogout() {
+    loginService.logout()
+    window.location.pathname = "/login"
+  }
+  function handleSignIn(data) {
     const result = loginService.loginPost(data)
-      .then(({ res: data }) => {
+      .then(e => {
         setIsAuthenticated(true)
-        setPermissionsContext(data.claims)
-
-        const keys = Object.keys(data)
-
-        keys.forEach(e => {
-          if (typeof data[e] == "object") {
-            Cookies.set(e, JSON.stringify(data[e]), { expires: Number(data.expirationTimeAccessToken) })
-          }
-          else {
-            Cookies.set(e, data[e], { expires: Number(data.expirationTimeAccessToken) })
-          }
-        })
-
-        navigate("/")
+        setPermissionsContext(e.claims)
+        window.location.pathname = e.pathname
       })
 
     return result
   }
-  function logout() {
-    const keys = Object.keys(Cookies.get())
-    keys.forEach(e => {
-      Cookies.remove(e)
-    })
-
-    navigate("/login")
-  }
-
-  const authContext: AuthContextType = {
-    signIn: signIn,
-    logout: logout,
-    isAuthenticated: isAuthenticated || AUTH.DISABLE_AUTH,
-    permissions: permissionsContext
-  }
 
   useEffect(() => {
-    const expirationDate: any = Cookies.get("expectedExpirationTokenDateTime")
-    console.log(expirationDate == null , token == null  , AUTH.DISABLE_AUTH == false)
-    if ((expirationDate == null || token == null ) && AUTH.DISABLE_AUTH == false) {
-      if (!AUTH.AUTHORIZE_NOT_REQUIRED.includes(window.location.pathname)) {
-        authContext.logout()
+    AuthenticationService.authenticationPipeline(token, window.location.pathname, expirationDate, (event) => {
+      if (event == "logout") {
+        window.location.pathname = '/login'
+        loginService.logout()
       }
-    }
-    else if (token) {
-      const timeDiference = new Date(expirationDate).getTime() - new Date().getTime()
-
-      if (AUTH.AUTHORIZE_NOT_REQUIRED.includes(window.location.pathname)) {
-        navigate("/")
+      if (event == "not-required") {
+        //no events
       }
-
-      if (!timeoutStarted) {
-        setTimeoutStarted(true)
-        setTimeout(() => {
-          authContext.logout()
-        }, timeDiference);
+      if (event == "authenticate") {
+        //no events
       }
-    }
+    })
   }, [])
 
   return (
-    <AuthContext.Provider value={authContext}>
+    <AuthContext.Provider value={{
+      signIn: handleSignIn,
+      logout: handleLogout,
+      isAuthenticated: isAuthenticated || AUTH.DISABLE_AUTH,
+      permissions: permissionsContext
+    }}>
       {children}
     </AuthContext.Provider>
   );
