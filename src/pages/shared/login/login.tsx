@@ -16,7 +16,7 @@ import Checkbox from '../../../components/checkbox'
 import { useQuery } from '../../../utils/hooks/query-hooks'
 
 interface LoginSchema {
-  email: string
+  accessKey: string
   password: string
 }
 
@@ -26,7 +26,7 @@ function Login() {
   const [finished, setQueries] = useQuery(true)
 
   const loginSchema = z.object({
-    email: z.string().nonempty("Required"),
+    accessKey: z.string().nonempty("Required"),
     password: z.string().nonempty("Required"),
   })
 
@@ -58,8 +58,8 @@ function Login() {
               <h1 className='font-semibold text-2xl'>Welcome</h1>
               <InputRoot>
                 <Label>E-Mail</Label>
-                <InputText placeholder='E-Mail' {...register('email')} />
-                <Span variation='error'>{formState.errors.email?.message}</Span>
+                <InputText placeholder='E-Mail' {...register('accessKey')} />
+                <Span variation='error'>{formState.errors.accessKey?.message}</Span>
               </InputRoot>
               <InputRoot>
                 <Label>Password</Label>

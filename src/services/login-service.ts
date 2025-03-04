@@ -5,10 +5,7 @@ import Cookies from "js-cookie";
 
 class LoginService extends BaseService {
   public async loginPost(data) {
-    const result = this.post<any>({ api: env, href: "/api/account/login", params: {} }, {
-      email: data.email,
-      password: data.password
-    }).then(({ res: data }) => {
+    const result = this.post<any>({ api: env, href: "/sign-in", params: {} }, data).then(({ res: data }) => {
       const keys = Object.keys(data)
 
       keys.forEach(e => {
@@ -25,7 +22,7 @@ class LoginService extends BaseService {
 
     return result;
   }
-  public  logout() {
+  public logout() {
     const keys = Object.keys(Cookies.get())
     keys.forEach(e => {
       Cookies.remove(e)
