@@ -28,6 +28,10 @@ import { useQuery } from "../../../utils/hooks/query-hooks";
 import Loading from "../../helpers/loading/loading";
 import { USER_ROUTES } from '../../../config/routes-config';
 import { ChevronLeft } from 'lucide-react';
+import Accordion from '../../../base-components/accordion';
+import AccordionRoot from '../../../components/accordion-root';
+import AccordionTitle from '../../../components/accordion-title';
+import AccordionContext from '../../../base-components/accordion-context';
 
 
 function AccountsManeger() {
@@ -176,39 +180,47 @@ function AccountsManeger() {
                         </div>
                         <div className=' w-full flex-1 rounded center max-w-96 flex-col gap-3'>
                             <If conditional={urlParams.id != null}>
-                                <InputRoot>
-                                    <Label>Recovery options</Label>
-                                    <div className='w-full bg-black bg-opacity-30  flex flex-col gap-3 p-3 rounded'>
-                                        <Link
-                                            className='cursor-pointer hover:text-violet-500 transition font-semibold'
-                                            to={`${USER_ROUTES.RECOVERY_KEYS}?id=${urlParams.id}`}
-                                            state={
-                                                {
-                                                    currentImage,
-                                                    currentImageSecundary,
-                                                    email: `${getEmail()?.username}@${getEmail()?.provider.signature}`,
-                                                    platform: getPlatform()?.name
+                                <AccordionContext>
+                                    <AccordionRoot variation='full'>
+                                        <AccordionTitle>
+                                            <div className=' flex w-full justify-center'>
+                                                <div className='cursor-pointer  bg-white bg-opacity-5 hover:bg-opacity-15 px-3 p-1 flex items-center justify-center border-2 border-zinc-400 rounded-full top-0 left-0 '>
+                                                    Recovery options
+                                                </div>
+                                            </div>
+                                        </AccordionTitle>
+                                        <Accordion className='w-full'>
+                                            <Link
+                                                className='bg-black p-3 bg-opacity-30 cursor-pointer hover:text-violet-500 transition font-semibold'
+                                                to={`${USER_ROUTES.RECOVERY_KEYS}?id=${urlParams.id}`}
+                                                state={
+                                                    {
+                                                        currentImage,
+                                                        currentImageSecundary,
+                                                        email: `${getEmail()?.username}@${getEmail()?.provider.signature}`,
+                                                        platform: getPlatform()?.name
+                                                    }
                                                 }
-                                            }
-                                        >
-                                            Keys
-                                        </Link>
-                                        <Link
-                                            className='cursor-pointer hover:text-violet-500 transition font-semibold'
-                                            to={`${USER_ROUTES.RECOVERY_EMAILS}?id=${urlParams.id}`}
-                                            state={
-                                                {
-                                                    currentImage,
-                                                    currentImageSecundary,
-                                                    email: `${getEmail()?.username}@${getEmail()?.provider.signature}`,
-                                                    platform: getPlatform()?.name
+                                            >
+                                                Keys
+                                            </Link>
+                                            <Link
+                                                className='bg-black p-3 bg-opacity-30 cursor-pointer hover:text-violet-500 transition font-semibold'
+                                                to={`${USER_ROUTES.RECOVERY_EMAILS}?id=${urlParams.id}`}
+                                                state={
+                                                    {
+                                                        currentImage,
+                                                        currentImageSecundary,
+                                                        email: `${getEmail()?.username}@${getEmail()?.provider.signature}`,
+                                                        platform: getPlatform()?.name
+                                                    }
                                                 }
-                                            }
-                                        >
-                                            E-mails
-                                        </Link>
-                                    </div>
-                                </InputRoot>
+                                            >
+                                                E-mails
+                                            </Link>
+                                        </Accordion>
+                                    </AccordionRoot>
+                                </AccordionContext>
                             </If>
                             <Form variation='card' onSubmit={handleSubmit((e) => handleAddOrUpdate(e))} >
                                 <InputRoot>

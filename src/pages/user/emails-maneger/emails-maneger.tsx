@@ -169,7 +169,7 @@ function EmailsManeger() {
                                     <Span variation='error'>{errors.lastName?.message}</Span>
                                 </InputRoot>
                                 <InputRoot>
-                                    <Label >Birth Data</Label>
+                                    <Label >Birth Date</Label>
                                     <InputText mask={MASK.DATE} placeholder='00/00/0000' {...register('birthDate', { disabled: !isEditing })} />
                                     <Span variation='error'>{errors.birthDate?.message}</Span>
                                 </InputRoot>
