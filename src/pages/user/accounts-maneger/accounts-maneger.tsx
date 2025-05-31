@@ -149,18 +149,30 @@ function AccountsManeger() {
     }, [])
 
     useEffect(() => {
+        const platformImage = platforms.find(e => e.id == watch("platformId"))?.image
 
-        const platformImage = platforms.filter(e => e.id == watch("platformId"))[0]?.image
-        const emailImage = emails.filter(e => e.id == watch("emailId"))[0]?.provider?.image
+        setCurrentImage(base64ToImage(platformImage?.base64, platformImage?.mimeType))
+    }, [watch("platformId")])
 
-        if (platformImage) {
-            setCurrentImage(base64ToImage(platformImage?.base64, platformImage?.mimeType))
-            setCurrentImageSecundary(base64ToImage(emailImage?.base64, emailImage?.mimeType))
+    useEffect(() => {
+        const email = emails.find(e => e.id == watch("emailId"))
+        const emailImage = email?.provider?.image
+
+        setCurrentImageSecundary(base64ToImage(emailImage?.base64, emailImage?.mimeType))
+
+        if (isEditable == false && watch("name")?.trim() == '' && watch("lastName")?.trim() == '' && watch("phone")?.trim() == '' && watch("birthDate")?.trim() == '' && watch("username")?.trim() == '') {
+            console.log("Teste")
+            
+            reset({
+                ...watch(),
+                birthDate: email?.birthDate,
+                phone: email?.phone,
+                name: email?.name,
+                lastName: email?.lastName,
+                username: email?.username,
+            })
         }
-        else {
-            setCurrentImage(base64ToImage(emailImage?.base64, emailImage?.mimeType))
-        }
-    }, [watch("emailId"), watch("platformId")])
+    }, [watch("emailId")])
 
     return (
         <Content >
@@ -175,7 +187,7 @@ function AccountsManeger() {
                 <If conditional={finished}>
                     <div className='flex gap-3 w-full  my-28 rounded items-center justify-center  flex-col p-3  center '>
                         <div className='w-48 h-48 bg-tertiary rounded center relative'>
-                            {currentImage && <img className='w-16 min-h-16 ' src={currentImage}></img>}
+                            {<img className='w-16 min-h-16 ' src={currentImage}></img>}
                             {currentImageSecundary && <img className='w-9 min-h-9 absolute bottom-0 right-0 m-1' src={currentImageSecundary}></img>}
                         </div>
                         <div className=' w-full flex-1 rounded center max-w-96 flex-col gap-3'>
@@ -277,12 +289,12 @@ function AccountsManeger() {
                                 </InputRoot>
                                 <InputRoot>
                                     <Label >Birth Data</Label>
-                                    <InputText mask={MASK.DATE} placeholder='00/00/0000' {...register('birthDate', { disabled: !isEditing })} />
+                                    <InputText date='dd/mm/yyyy' type='date' placeholder='00/00/0000' {...register('birthDate', { disabled: !isEditing })} />
                                     <Span variation='error'>{errors.birthDate?.message}</Span>
                                 </InputRoot>
                                 <InputRoot>
                                     <Label >Phone</Label>
-                                    <InputText placeholder='Phone' {...register('phone', { disabled: !isEditing })} />
+                                    <InputText mask={MASK.PHONE} placeholder='Phone' {...register('phone', { disabled: !isEditing })} />
                                     <Span variation='error'>{errors.phone?.message}</Span>
                                 </InputRoot>
                                 <InputRoot>
