@@ -118,7 +118,7 @@ function Signup() {
                 <h1 className='font-semibold text-2xl'>Account Successfully Created</h1>
                 <ShieldCheck className='w-16 h-16' strokeWidth={1.5} />
               </div>
-              <p>You can now manage your accounts.</p>
+              <p>You can now manage your Accounts.</p>
               <Button variation='default-full' onClick={() => navigate(USER_ROUTES.LOGIN)}>
                 Back to Login
               </Button>

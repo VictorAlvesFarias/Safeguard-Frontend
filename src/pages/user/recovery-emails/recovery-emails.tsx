@@ -37,7 +37,7 @@ function RecoveryEmails() {
     const [recoveryEmails, setRecoveryEmails] = useState<RecoveryEmail[]>([])
 
     const schema = z.object({
-        emailId: z.number()
+        parentEmailId: z.number()
     })
 
     const { handleSubmit, register, formState: { errors }, control } = useForm<z.infer<typeof schema>>({
@@ -57,15 +57,14 @@ function RecoveryEmails() {
     function handleAddRecoveryEmail(data) {
         return recoveryEmailService.add({
             ...data,
-            referenceId: urlParams.id,
-            referenceType: 'Account'
+            emailId: urlParams.id,
         })
             .then(e => {
                 setQuerys(() => getRecoveryEmails())
             })
     }
     function getRecoveryEmails() {
-        return recoveryEmailService.getAll({ referenceId: urlParams.id, type: 'Account' })
+        return recoveryEmailService.getAll({ emailId: urlParams.id })
             .then(({ res }) => {
                 setRecoveryEmails(res)
             })
@@ -105,7 +104,7 @@ function RecoveryEmails() {
                     <form className='flex gap-3' onSubmit={handleSubmit((e) => setQuerys(() => handleAddRecoveryEmail(e)))}>
                         <InputRoot>
                             <Controller
-                                name='emailId'
+                                name='parentEmailId'
                                 control={control}
                                 render={({ field, field: { onChange } }) => {
                                     return (
@@ -113,7 +112,7 @@ function RecoveryEmails() {
                                             <DropdownRoot variation='ultra-rounded' {...field} placeholder='Select e-mail'>
                                                 <DropdownMenu>
                                                     {emails.map((e, i) =>
-                                                        <DropdownOption key={i} label={`${e.username}@${e.provider.signature}`} value={e.id} />
+                                                        <DropdownOption key={i} label={`${e.username}@${e.emailAddress.provider.signature}`} value={e.id} />
                                                     )}
                                                 </DropdownMenu>
                                             </DropdownRoot>

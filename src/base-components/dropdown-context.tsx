@@ -10,7 +10,9 @@ interface DropdownContextType {
     started: string | null
     filter: string
     selected: IDropdownOptionValue | null
-    setSelected: (e: IDropdownOptionValue | null) => any
+    setSelected: (e: IDropdownOptionValue | null) => any,
+    setOption: (e: IDropdownOptionValue) => any,
+    options: IDropdownOptionValue[],
 }
 
 interface DropdownContextComponent {
@@ -23,6 +25,11 @@ function DropdownContext(props: DropdownContextComponent) {
     const [started, setStarted] = useState<string | null>(null)
     const [selected, setSelected] = useState<IDropdownOptionValue | null>(null)
     const [filter, setFilter] = useState<string>("")
+    const [options, setOption] = useState<IDropdownOptionValue[]>([])
+
+    function handleAddOption(item: IDropdownOptionValue) {
+        setOption(e => [...e, item])
+    }
 
     function handleSetSelected(e: IDropdownOptionValue | null) {
         props?.onChange ? props.onChange(e?.value) : null
@@ -37,7 +44,9 @@ function DropdownContext(props: DropdownContextComponent) {
         filter: filter,
         setFilter: setFilter,
         started,
-        setStarted
+        setStarted,
+        setOption: handleAddOption,
+        options
     }
 
     return <DropdownContextObject.Provider value={context} children={props.children} />
@@ -49,9 +58,11 @@ const DropdownContextObject = createContext<DropdownContextType>({
     setSelected: () => { },
     setStarted: () => { },
     setFilter: () => { },
+    setOption: () => { },
     selected: null,
     filter: "",
-    started: null
+    started: null,
+    options: []
 });
 
 export default DropdownContext

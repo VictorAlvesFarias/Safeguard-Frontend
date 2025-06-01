@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useRef } from "react"
 import { DropdownContextObject } from "./dropdown-context"
 import React from "react"
 import { useEffectLog } from "../utils/hooks/log-hooks"
@@ -16,7 +16,8 @@ interface IDropdownOptionContainerProps {
 }
 
 function DropdownOptionContainer(props: IDropdownOptionContainerProps) {
-    const { setOpen, setSelected, selected, setFilter } = useContext(DropdownContextObject)
+    const { setOpen, setSelected, selected, setFilter, setOption } = useContext(DropdownContextObject)
+    const addedRef = useRef(false)
 
     function handleSetOption() {
         setSelected(props)
@@ -25,11 +26,16 @@ function DropdownOptionContainer(props: IDropdownOptionContainerProps) {
     }
 
     useEffect(() => {
+        if (addedRef.current == false) {
+            addedRef.current = true
+
+            setOption({ label: props.label, value: props.value })
+        }
+
         if (selected?.value == props.value) {
             setSelected(props)
             setFilter("")
         }
-
     }, [])
 
     return (

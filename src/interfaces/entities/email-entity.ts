@@ -1,7 +1,10 @@
+import { EmailAddressEntity } from "./email-address-entity";
+import { PlatformEntity } from "./platform-entity";
 import { ProviderEntity } from "./provider-entity";
 
 interface EmailEntity {
-    provider: ProviderEntity
+    emailAddress: EmailAddressEntity
+    platform: PlatformEntity 
     name: string
     lastName: string
     birthDate: string

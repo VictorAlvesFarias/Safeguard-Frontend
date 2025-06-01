@@ -19,16 +19,17 @@ interface IDropdownRootContainerProps {
 };
 
 const DropdownRootContainer = forwardRef((props: IDropdownRootContainerProps, ref: RefCallBack | LegacyRef<HTMLInputElement>) => {
-    const { open, setOpen, selected, setSelected, filter, setFilter, setStarted } = useContext(DropdownContextObject)
+    const { open, setOpen, selected, setSelected, filter, setFilter, setStarted, options } = useContext(DropdownContextObject)
     const internalRef = useRef<HTMLInputElement | null>()
     const helperInputRef: any = useRef()
     const inputProps = { ...props, children: null }
 
     function handleRef(element: HTMLInputElement | null) {
-        internalRef.current = element;
         if (ref instanceof Function) {
             ref(element);
         }
+
+        internalRef.current = element;
     };
     function handleOnChangeFilter(e) {
         setSelected(null)
@@ -44,12 +45,25 @@ const DropdownRootContainer = forwardRef((props: IDropdownRootContainerProps, re
     }
     function onClick() {
         setOpen(true)
+
         helperInputRef.current?.focus()
     }
 
     useEffect(() => {
         setStarted(inputProps.value)
     }, [])
+
+    useEffect(() => {
+        let option = options.find(e => e.value == internalRef?.current?.value)
+
+        if (option == null) {
+            setSelected(null)
+
+            return
+        }
+
+        setSelected({ label: option?.label ?? "", value: option?.value })
+    }, [internalRef.current?.value])
 
     return (
         <>

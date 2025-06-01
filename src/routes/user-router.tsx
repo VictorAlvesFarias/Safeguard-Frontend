@@ -1,4 +1,4 @@
-import { AtSignIcon, ChevronDown, ChevronLeft, Circle, CircleUser, CircleUserRound, LucideMenu, MailsIcon, NetworkIcon, Router, User, UserRound, UsersIcon } from "lucide-react";
+import { AtSignIcon, ChevronDown, ChevronLeft, Circle, CircleUser, CircleUserRound, LucideMenu, MailIcon, MailsIcon, NetworkIcon, Router, User, UserRound, UsersIcon } from "lucide-react";
 import React, { useContext } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { AuthContext } from "../auth/auth-context";
@@ -28,10 +28,11 @@ import ProvidersManeger from "../pages/user/providers-maneger/providers-maneger"
 import PlatformsManeger from "../pages/user/platforms-maneger/platforms-maneger";
 import Emails from "../pages/user/emails/emails";
 import EmailsManeger from "../pages/user/emails-maneger/emails-maneger";
-import AccountsManeger from "../pages/user/accounts-maneger/accounts-maneger";
-import Accounts from "../pages/user/accounts/accounts";
 import RecoveryKeys from "../pages/user/recovery-keys/recovery-keys";
 import RecoveryEmails from "../pages/user/recovery-emails/recovery-emails";
+import EmailAddressManeger from "../pages/user/email-address-maneger/email-address-maneger";
+import EmailAddresses from "../pages/user/email-address/email-address";
+import EmailFile from "../pages/user/email-files/email-files";
 
 function UserRouters() {
   const { logout, isAuthenticated } = useContext(AuthContext);
@@ -56,14 +57,14 @@ function UserRouters() {
                 </div>
               </div>
             </SidebarItem>
-            <SidebarItem href={USER_ROUTES.ACCOTUNS}>
-              <SidebarHref><UsersIcon />Accounts</SidebarHref>
+            <SidebarItem href={USER_ROUTES.EMAILS}>
+              <SidebarHref><MailsIcon />E-mails</SidebarHref>
+            </SidebarItem>
+            <SidebarItem href={USER_ROUTES.EMAIL_ADDRESS}>
+              <SidebarHref><MailIcon />Addresses</SidebarHref>
             </SidebarItem>
             <SidebarItem href={USER_ROUTES.DOMAINS}>
               <SidebarHref><AtSignIcon /> Providers</SidebarHref>
-            </SidebarItem>
-            <SidebarItem href={USER_ROUTES.EMAILS}>
-              <SidebarHref><MailsIcon />E-mails</SidebarHref>
             </SidebarItem>
             <SidebarItem href={USER_ROUTES.PLATFORMS}>
               <SidebarHref><NetworkIcon />Platforms</SidebarHref>
@@ -98,16 +99,17 @@ function UserRouters() {
           </SidebarHamburguer>
           <SidebarContent>
             <Routes>
-              <Route path={USER_ROUTES.ACCOTUNS} element={<Accounts />} />
-              <Route path={USER_ROUTES.MANAGER_ACCOUNTS} element={<AccountsManeger />} />
               <Route path={USER_ROUTES.DOMAINS} element={<Providers />} />
               <Route path={USER_ROUTES.MANAGER_DOMAINS} element={<ProvidersManeger />} />
               <Route path={USER_ROUTES.PLATFORMS} element={<Platforms />} />
               <Route path={USER_ROUTES.MANAGER_PLATFORMS} element={<PlatformsManeger />} />
               <Route path={USER_ROUTES.EMAILS} element={<Emails />} />
               <Route path={USER_ROUTES.MANAGER_EMAILS} element={<EmailsManeger />} />
+              <Route path={USER_ROUTES.EMAIL_ADDRESS} element={<EmailAddresses />} />
+              <Route path={USER_ROUTES.MANAGER_EMAIL_ADDRESS} element={<EmailAddressManeger />} />
               <Route path={USER_ROUTES.RECOVERY_KEYS} element={<RecoveryKeys />} />
               <Route path={USER_ROUTES.RECOVERY_EMAILS} element={<RecoveryEmails />} />
+              <Route path={USER_ROUTES.EMAIL_FILES} element={<EmailFile />} />
             </Routes>
           </SidebarContent>
         </SidebarRoot>

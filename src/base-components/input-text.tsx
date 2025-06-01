@@ -52,7 +52,6 @@ const TextContainer = forwardRef((props: ITextContainerProps, ref: RefCallBack |
 
         return date;
     }
-
     function formatMask(initialValue, regex, replacement) {
         let value = initialValue
 
@@ -132,9 +131,9 @@ const TextContainer = forwardRef((props: ITextContainerProps, ref: RefCallBack |
     return (
         <div
             onClick={() => internalRef.current?.focus()}
-            className={propsRef.current.className}
-            aria-disabled={propsRef.current.disabled}
-            aria-atomic={propsRef.current.loading}
+            className={props.className}
+            aria-disabled={props.disabled}
+            aria-atomic={props.loading}
         >
             <input
                 {...props}

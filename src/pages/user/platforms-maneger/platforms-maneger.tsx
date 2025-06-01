@@ -47,7 +47,7 @@ function PlatformsManeger() {
 
     function handleSelectImage(file: FileEntity) {
         setValue('imageId', String(file.id), { shouldValidate: true })
-        setCurrentImage(base64ToImage(file.base64, file.mimeType))
+        setCurrentImage(base64ToImage(file.storedFile.base64, file.storedFile.mimeType))
     }
     function handleAddPlatform(data) {
         return platformService.add(toFormData(data))
@@ -74,7 +74,7 @@ function PlatformsManeger() {
             .then(({ res }: any) => {
                 reset(res)
                 setIsEditable(true)
-                setCurrentImage(base64ToImage(res.image.base64, res.image.mimeType))
+                setCurrentImage(base64ToImage(res.image.storedFile.base64, res.image.storedFile.mimeType))
             })
     }
 

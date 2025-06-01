@@ -74,7 +74,7 @@ function Providers() {
                                                 search: "id=" + item.id
                                             }} className='w-full h-full flex flex-col gap-3 rounded center '
                                         >
-                                            <img className='w-16' src={base64ToImage(item?.image.base64, item?.image.mimeType)} alt={item?.name} />
+                                            <img className='w-16' src={base64ToImage(item?.image.storedFile.base64, item?.image.storedFile.mimeType)} alt={item?.name} />
                                             <p className='font-seibold'>
                                                 {item?.name}
                                             </p>

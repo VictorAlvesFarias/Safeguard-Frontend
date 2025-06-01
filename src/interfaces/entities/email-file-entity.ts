@@ -1,10 +1,11 @@
 import { StoredFileEntity } from "./stored-file-entity"
 
-interface FileEntity {
+interface EmailFileEntity {
     storedFile: StoredFileEntity
     id: number
+    emailId: number
 }
 
 export {
-    FileEntity
+    EmailFileEntity
 }

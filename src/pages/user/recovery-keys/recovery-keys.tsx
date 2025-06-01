@@ -47,15 +47,14 @@ function RecoveryKeys() {
     function handleAddRecoveryKey(data) {
         return recoveryKeyService.add({
             ...data,
-            referenceId: urlParams.id,
-            referenceType: 'Account'
+            emailId: urlParams.id
         })
             .then(e => {
                 setQuerys(() => getRecoveryKeys())
             })
     }
     function getRecoveryKeys() {
-        return recoveryKeyService.getAll({ referenceId: urlParams.id, type: 'Account' })
+        return recoveryKeyService.getAll({ emailId: urlParams.id })
             .then(({ res }) => {
                 setKeys(res)
             })
@@ -86,7 +85,7 @@ function RecoveryKeys() {
                 </div>
                 <div className='overflow-auto bg-opacity-50 min-h-full w-full p-6 gap-6 flex flex-col    '>
                     <form className='flex gap-3' onSubmit={handleSubmit((e) => setQuerys(() => handleAddRecoveryKey(e)))}>
-                        <div className='w-full max-w-80'>
+                        <div className='w-full '>
                             <InputText {...register('key')} placeholder='New key' variation='ultra-rounded'></InputText>
                         </div>
                         <Button>Add</Button>

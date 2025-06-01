@@ -60,7 +60,7 @@ function FilesManagerDialog({ callback }: { callback: (e: FileEntity) => any }) 
       {!finished && <div className='flex h-full w-full center'>
         <Loading />
       </div>}
-      <div aria-hidden={!finished} className='flex h-full w-full overflow-auto aria-hidden:hidden'>
+      <div aria-hidden={!finished} className='flex h-fit w-full overflow-auto aria-hidden:hidden'>
         <div className='grid sm:grid-cols-2 xl:grid-cols-3 h-full w-full gap-3'>
           <label htmlFor="add-image" className='cursor-pointer bg-tertiary rounded flex-col h-48 flex relative items-center justify-center'>
             <input className="hidden" type="file" onChange={handleFile} id="add-image" />
@@ -76,16 +76,16 @@ function FilesManagerDialog({ callback }: { callback: (e: FileEntity) => any }) 
                 <TrashIcon />
               </button>
               <div className='w-full h-full flex flex-col gap-3 rounded center '  >
-                <img className='w-16' src={base64ToImage(item.base64, item.mimeType)} alt={item.name} />
+                <img className='w-16' src={base64ToImage(item.storedFile.base64, item.storedFile.mimeType)} alt={item.storedFile.name} />
                 <p className='font-semibold'>
-                  {item?.name}
+                  {item?.storedFile.name}
                 </p>
               </div>
             </div>
           )}
         </div>
       </div>
-      <div className='flex gap-3 max-w-80'>
+      <div className='flex gap-3 max-w-80 flex-1 justify-end flex-col'>
           <div className='w-1/2'>
             <Button disabled={selected == null} onClick={handleSelectItem} variation='default-full'>Selecionar</Button>
           </div>
