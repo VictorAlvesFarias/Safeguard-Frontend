@@ -87,7 +87,7 @@ function FilesManagerDialog({ callback }: { callback: (e: FileEntity) => any }) 
       </div>
       <div className='flex gap-3 max-w-80 flex-1 justify-end flex-col'>
           <div className='w-1/2'>
-            <Button disabled={selected == null} onClick={handleSelectItem} variation='default-full'>Selecionar</Button>
+            <Button disabled={selected == null} onClick={handleSelectItem}>Selecionar</Button>
           </div>
         <ModalClose className='w-9 h-9 absolute top-0 right-0 m-3'>
           <Button variation='red'>X</Button>

@@ -368,11 +368,11 @@ function EmailsManeger() {
 
                                 {/* Submit Buttons */}
                                 <If conditional={!isEditable}>
-                                    <Button variation='default-full'>Add</Button>
+                                    <Button>Add</Button>
                                 </If>
                                 <If conditional={isEditable}>
                                     {isEditing ? (
-                                        <Button variation='default-full'>Save</Button>
+                                        <Button>Save</Button>
                                     ) : (
                                         <Span
                                             onClick={() => setIsEditing(true)}

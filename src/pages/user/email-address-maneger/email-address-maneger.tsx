@@ -152,12 +152,12 @@ function EmailAddressManeger() {
                                     <Span variation='error'>{errors.providerId?.message}</Span>
                                 </InputRoot>
                                 <If conditional={!isEditable}>
-                                    <Button variation='default-full'>Add</Button>
+                                    <Button>Add</Button>
                                 </If>
                                 <If conditional={isEditable}>
                                     {
                                         isEditing ?
-                                            <Button variation='default-full'>Save</Button> :
+                                            <Button>Save</Button> :
                                             <Span onClick={() => setIsEditing(true)} variation='button-default-full'>Edit</Span>
                                     }
                                 </If>

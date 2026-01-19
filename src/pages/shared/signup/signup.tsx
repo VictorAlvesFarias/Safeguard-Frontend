@@ -107,7 +107,7 @@ function Signup() {
                   <InputText placeholder='Confirm Password' type="password" {...register('confirmPassword')} />
                   <Span variation='error'>{formState.errors.confirmPassword?.message}</Span>
                 </InputRoot>
-                <Button loadingComponent={<LoaderCircle className="rotating-div" />} variation='default-full' loading={!finished}>
+                <Button loadingComponent={<LoaderCircle className="rotating-div" />} loading={!finished}>
                   Create Account
                 </Button>
               </Form>
@@ -119,7 +119,7 @@ function Signup() {
                 <ShieldCheck className='w-16 h-16' strokeWidth={1.5} />
               </div>
               <p>You can now manage your Accounts.</p>
-              <Button variation='default-full' onClick={() => navigate(USER_ROUTES.LOGIN)}>
+              <Button onClick={() => navigate(USER_ROUTES.LOGIN)}>
                 Back to Login
               </Button>
             </div>

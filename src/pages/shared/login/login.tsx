@@ -66,7 +66,7 @@ function Login() {
                 <InputText placeholder='Password' {...register('password')} />
                 <Span variation='error'>{formState.errors.password?.message}</Span>
               </InputRoot>
-              <Button loadingComponent={<LoaderCircle className={"rotating-div"} />} variation='default-full' loading={!finished}>
+              <Button loadingComponent={<LoaderCircle className={"rotating-div"} />} loading={!finished}>
                 Login
               </Button>
               <InputRoot variation='checkbox'>
